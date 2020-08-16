@@ -35,7 +35,21 @@ The python language documentation also contains a set of tutorials and library d
 
 You will find there are references to python 2.x and 3.x. There are differences between these versions. Class examples will be written for python 3.x.
 
-The examples in lessons 1 - 6 below are intended to introduce you to the python syntax and provide a quick start reference for the language.
+
+
+
+### How does python work?
+
+Python is an interpreted, high-level, general-purpose programming language. It is dynamically typed and garbage-collected.
+
+Python code, written in .py file is first compiled to *bytecode*, a low-level set of instructions that can be executed by an interpreter. Instead of executing the instructions on the CPU, bytecode instructions are executed on a Virtual Machine.
+
+Dynamic typing means that the interpeter determines the validity of variable types and operations performed at run-time.
+
+The Garbage Collector automatically frees up memory space. It keeps track of the number of references to an object. When the reference count goes down to zero, it deletes the object.
+
+
+The example in lessons 1 - 7 below are intended to introduce you to the python syntax and provide a quick start reference for the language.
 
 <br><br>
 
@@ -43,33 +57,7 @@ The examples in lessons 1 - 6 below are intended to introduce you to the python 
 
 Lesson 1 demonstrates how to read input from the keyboard, convert the data from string to integer or float, and print the data. See lesson1.py.
 
-### Comments
 
-Everything to the right of the hash character # is a comment.
-
-```
-# This is a comment
-print('this code will run')    # this will not run, is a comment
-``` 
-
-Multiline comments are wrapped inside triple quotes. Can use single or double quotes. 
-
-```
-"""
-comment line 1
-comment line 2
-"""
-```
-
-Read this. "Writing Comments in Python"  https://realpython.com/python-comments-guide/ 
-
-
-Library documentation for input, print:
-
-https://docs.python.org/3/library/functions.html#input
-
-https://docs.python.org/3/library/functions.html#print
-<br><br>
 
 ## Lesson 2 - Formatting output using String modulo operator(%) 
 
@@ -147,3 +135,8 @@ See lesson4.py for example usage <br>
 <br><br>
 
 
+## Lesson 5 - loops
+
+## Lesson 6 - functions
+
+## Lesson 7 - lists
