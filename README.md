@@ -10,4 +10,4 @@ There are 6 lessons that serve as a quickstart introduction to python syntax.
 - Lesson 4 - comparison operators, if statements
 - Lesson 5 - loops
 - Lesson 6 - functions
-
+- Lesson 7 - lists
