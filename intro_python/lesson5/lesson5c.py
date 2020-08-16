@@ -1,25 +1,18 @@
-# lesson 5 - loops
+# lesson 5c - for loop using range function
 
-count = 0
-
-while (count < 3):
-   print("while loop, count: ", count)
-   count = count + 1
-
-
-print("\nfor loop 1")
+# create a list of string data types
 fruits = ['watermelon', 'grapes', 'apples']
-for f in fruits:
-   print(f)
 
+# use the python len() function to return number of objects in the list
 print("\nfor loop range(len(fruits)) output")
 for index in range(len(fruits)):
    print('Current fruit : ', fruits[index])
 
-# python range function: range(start, stop, step)
-print("\nfor loop range(4) output")
 
+
+# python range function: range(start, stop, step)
 # i starts at 0, increases by 1, and stops after 3
+print('\nfor loop range(4)')
 for i in range(4):
    # end print statement with a comma instead of a newline
    print(i, end=', ')
