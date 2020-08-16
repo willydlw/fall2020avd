@@ -5,9 +5,9 @@ A list is a data structure in Python that is a mutable, or changeable, ordered s
 A list is not the same as an array, as arrays contain objects of the same data type. Python does not have built-in support for arrays. In a later lesson, we will learn how to use the numpy library for arrays.
 
 https://docs.python.org/3/library/stdtypes.html#typesseq-list 
+<br><br>
 
-
-### lesson7a.py - Getting started with lists
+## lesson7a.py - Getting started with lists
 
 - Create a list that contains string data types. 
 - Print the object's data type. 
@@ -91,16 +91,72 @@ calculator
 notebook
 
 ```
+<br><br>
 
-### lesson7b.py - list may contain different data types
+## lesson7b.py - sort list of integers
 
+Python dyanmically types variables. The example below shows the numbers in the list are typed as integers. The list class sort method is used to sort the list in ascending order.
 
-### lesson7c.py - list methods
-
-The list data type has several methods. See https://docs.python.org/3/tutorial/datastructures.html for the available methods of list objects. 
-
-The example below demonstrates the usage of the append, insert, and remove methods.
+The list data type has several methods. See https://docs.python.org/3/tutorial/datastructures.html for the available methods of list objects. <br>
 
 
+```
+# lesson 7b 
+#   create a list of integers
+#   sort the list
+
+myIntList = [6, 3, 7, -2, -13, 0]
+print("original list: ", myIntList)
+
+# iterator through the list one item at a time
+# print the list item and its data type
+print("\ndata type of each list item")
+for v in myIntList:
+   print("v: ", v, type(v))
 
 
+# sort the list
+myIntList.sort()
+print("\nsorted list: ", myIntList)
+```
+<br>
+
+**output**
+```
+original list:  [6, 3, 7, -2, -13, 0]
+
+data type of each list item
+v:  6 <class 'int'>
+v:  3 <class 'int'>
+v:  7 <class 'int'>
+v:  -2 <class 'int'>
+v:  -13 <class 'int'>
+v:  0 <class 'int'>
+
+sorted list:  [-13, -2, 0, 3, 6, 7]
+```
+<br><br>
+
+
+
+## lesson7c.py - list method append
+
+The example below demonstrates creating an empty list and appending items to the end of the list. Experiment with the program to watch the list grow.
+
+```
+# create an empty list
+myList = []
+
+# print the number of items in the list and the list contents
+print("empty list")
+print("len(myList): ", len(myList))
+print("myList: ", myList)
+
+dataRead = 1
+
+while dataRead != 'q':
+   dataRead = input("\nenter list item or q to quit: ")
+   myList.append(dataRead)
+   print("len(myList): ", len(myList))
+   print("myList: ", myList)
+```

@@ -137,6 +137,12 @@ See lesson4.py for example usage <br>
 
 ## Lesson 5 - loops
 
+Lesson 5 directory covers while loops, for loops, and range function.
+
 ## Lesson 6 - functions
 
+Lesson 6 provides multiple examples of function syntax.
+
 ## Lesson 7 - lists
+
+Lesson 7 illustrates list creation, appending to end of a list, and sorting a list.
