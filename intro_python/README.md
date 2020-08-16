@@ -35,16 +35,41 @@ The python language documentation also contains a set of tutorials and library d
 
 You will find there are references to python 2.x and 3.x. There are differences between these versions. Class examples will be written for python 3.x.
 
+The examples in lessons 1 - 6 below are intended to introduce you to the python syntax and provide a quick start reference for the language.
+
+<br><br>
 
 ## Lesson 1 - keyboard input, print output, converting strings to int, float
 
-Lesson 1 demonstrates how to read input from the keyboard, convert the data from string to integer or float, and print the data.
+Lesson 1 demonstrates how to read input from the keyboard, convert the data from string to integer or float, and print the data. See lesson1.py.
 
+### Comments
+
+Everything to the right of the hash character # is a comment.
+
+```
+# This is a comment
+print('this code will run')    # this will not run, is a comment
+``` 
+
+Multiline comments are wrapped inside triple quotes. Can use single or double quotes. 
+
+```
+"""
+omment line 1
+comment line 2
+"""
+```
+
+Read this. "Writing Comments in Python"  https://realpython.com/python-comments-guide/ 
+
+
+Library documentation for input, print:
 
 https://docs.python.org/3/library/functions.html#input
 
 https://docs.python.org/3/library/functions.html#print
-
+<br><br>
 
 ## Lesson 2 - Formatting output using String modulo operator(%) 
 
@@ -77,7 +102,7 @@ b = 5
 print("a: {}".format(a))
 print("a: {}, b: {}".format(a,b))
 ```
-
+<br><br>
 
 ## Lesson 3 - Arithmetic Operators
 
@@ -94,7 +119,7 @@ print("a: {}, b: {}".format(a,b))
 https://www.tutorialspoint.com/python/python_basic_operators.htm
 
 See lesson3.py for example usage
-
+<br><br>
 
 ## Lesson 4 - Comparison Operators, if statements
 
@@ -108,7 +133,9 @@ See lesson3.py for example usage
 | >= | If the value of left operand is greater than or equal to the value of right operand, then condition becomes true. | (a >= b) is not true. |
 | <= | If the value of left operand is less than or equal to the value of right operand, then condition becomes true. | (a <= b) is true. |
 
+<br>
 
+**if statements**
 - An if statement consists of a boolean expression followed by one or more statements.
 - An if statement can be followed by an optional else statement, which executes when the boolean expression is FALSE.
 - nested if statements
@@ -117,7 +144,7 @@ See lesson3.py for example usage
 In Python, all the statements indented by the same number of character spaces after a programming construct are considered to be part of a single block of code. Python uses indentation as its method of grouping statements.
 
 See lesson4.py for example usage <br>
-
+<br><br>
 
 ## Lesson 5 - loops
 
@@ -128,8 +155,10 @@ See lesson4.py for example usage <br>
 while expression:
    statement(s)
 ```
+<br>
+
 - for loop
-- - Executes a sequence of statements multiple times and abbreviates the code that manages the loop variable.
+   - Executes a sequence of statements multiple times and abbreviates the code that manages the loop variable.
 
 ```
 for iterating_var in sequence:
@@ -137,10 +166,9 @@ for iterating_var in sequence:
 ```
 
 If a sequence contains an expression list, it is evaluated first. Then, the first item in the sequence is assigned to the iterating variable iterating_var. Next, the statements block is executed. Each item in the list is assigned to iterating_var, and the statement(s) block is executed until the entire sequence is exhausted.
+<br><br>
 
-### range function
-
-range(start, stop[, step])
+### range function: range(start, stop[, step])
 
 range takes three arguments. Out of the three, two arguments are optional. I.e.,start and step are the optional arguments.
 
@@ -151,5 +179,147 @@ range takes three arguments. Out of the three, two arguments are optional. I.e.,
 for var in range():
 ```
 
-See lesson5.py.
+See lesson5.py for examples of all these loops.
+<br><br>
 
+## Lesson 6 - functions
+
+A function is a block of code that only runs when it is called. Data can be passed to a function's arguments. A function can also return data.
+
+### Creating a Function
+
+A function is defined using the **def** keyword, followed by the function name, parentheses, optional parameters inside the parentheses and a colon. 
+
+The following example defines a function that prints a message when called. It has no arguments and does not return any data. Statements inside the function body are indented with a tab.
+
+```
+# define the function
+def hello_function():
+   print('hello from hello_function')
+
+# call function hello_function
+hello_function()
+```
+
+<br>
+
+The next example function has one parameter. It will print the data passed to the function parameter. The function does not return any data.<br>
+
+```
+def print_argument(msg):
+   print('function print_argument, msg: ', msg)
+
+# call functin print_argument, pass 'cat in the hat' as an argument
+# to function parameter msg
+print_argument('cat in the hat')
+```
+
+The following example has two parameters. Notice they are comma-separated. When calling the function, the program must pass two arguments. There is a one-to-one correspondence in the order of assigments. The first argument in the function call is assigned to the first parameter. The second argument in the function call is assigned to the second parameter. 
+
+```
+def print_names(fname, lname):
+   print(fname + " " + lname)
+
+# call function print_names. Pass two arguments to its parameters
+# When calling the function, it expects two arguments because the 
+# function was defined with two parameters. Try calling it with one or
+# three parameters. You will get an error message.
+print_names('Bart', 'Simpson')
+```
+<br><br>
+
+### Arbitrary Arguments, *args
+
+If you do not know how many arguments will be passed into a function, add a * before the parameter name in the function definition. The function will receive a *tuple* of arguments and can access the items accordingly.
+
+Note this is an advanced concept which you will likely not code in the class, but will see *args in python library function definitions. The main takeaway is to understand that *args means you can pass an arbitrary number of arguments to the function.
+
+```
+# arbitrary arguments, *args
+def some_function(*names):
+   print('there are ' + str(len(names)) + ' names')
+   for n in names:
+      print(n)
+
+# call some_function.
+some_function('Bart', 'Homer', 'Marge', 'Lisa')
+```
+<br><br>
+
+### Keyword Arguments, key=value
+
+Arguments do not have to be in the same order as the parameters when using key = value syntax. Below, the value passed to c is defined in the function call as c = 9. Similarly, the values for b and a are defined with key=value syntax.
+
+```
+# keyword arguments
+def average_of_three(a, b, c):
+   avg = (a+b+c)/3
+   print('average of a: {}, b: {}, c: {} is {}'.format(a,b,c,avg))
+
+# call average_of_three, use key=value syntax
+# does not require that we pass arguments in same order as parameters
+average_of_three(c = 9, a = 7, b = 4)
+```
+<br><br>
+
+### Arbitrary Keyword Arguments, **kwargs
+
+If you do not know how many keyword arguments will be passed into your function, add two asterisk: ** before the parameter name in the function definition.
+
+The function will receive a dictionary of arguments, and can access the items accordingly.
+
+```
+# aribtrary keyword arguments, **kwargs
+def print_knames(**person):
+   print("Last name is " + person["lname"])
+
+# call function, specify keyword arugments
+print_knames(fname='Charlie', lname = 'Brown')
+```
+<br><br>
+
+#### Default Parameter Value
+
+Default values may be assigned to a parameter, when the function is called without an argument.
+
+```
+# default parameter value
+def my_university(school = "CU Denver"):
+   print("My university is " + school)
+
+# call function, use default value
+my_university()
+
+# call function, pass value to parameter
+my_university("Montana State")
+
+```
+<br><br>
+
+### Return Values
+
+Use the return statement to return data. python allows returning multiple objects from a function. When returning more than one object, comma separate the list. See example below.
+
+```
+# return one value
+def scale_it(x):
+   return 10 * x 
+
+scaledVal = scale_it(3)
+
+# return two values
+def find_xy(radius, angle):
+   x = radius * math.cos(angle)
+   y = radius * math.sin(angle)
+   return x, y 
+
+# assigns x to a, b to y
+a, b = find_xy(9, math.pi)
+```
+<br><br>
+
+### pass statement
+
+Programmers sometimes define a function before writing the function code. Writing a function with no statements in the body causes an error. The pass statement is used to avoid an error. It allows the function to be called.
+
+```
