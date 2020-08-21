@@ -13,10 +13,10 @@ print ("a: %d, b: %d, a - b: %d" % (a, b, a - b))
 print ("a: %d, b: %d, a * b: %d" % (a, b, a * b))
 
 # division operator /
-print ("a: %d, b: %d, a * b: %.2f" %  (a, b, a/b))
+print ("a: %d, b: %d, a / b: %.2f" %  (a, b, a/b))
 
 # modulus operator
-print ("a: %d, b: %d, a * b: %d" % (a, b, a % b))
+print ("a: %d, b: %d, a %% b: %d" % (a, b, a % b))
 
 # exponentiation operator **
-print ("a: %d, b: %d, a * b: %d" % (a, b, a ** b))
+print ("a: %d, b: %d, a ** b: %d" % (a, b, a ** b))
