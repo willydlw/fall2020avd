@@ -24,4 +24,10 @@ Now that you've seen that cryptic blink sketch, you likely have more appreciatio
 
 ## Replacing setup() and loop() with main()
 
+Your Arduino homework in this course will use the C++ main function versus the loop() function. This method is preferred to eliminate the use of global variables. Read [programming_with_main](programming_with_main.md)
 
+<br><br>
+
+## Optimizing Arduino Code Memory Space
+
+We often use the serial print functions to provide debugging message information. The additional code and string messages require program memory storage. As your programs grow larger, using too much ram memory will cause your program to slow down and possibly fail while running. Read [optimizing_arduino_code_memory](optimizing_arduino_code_memory.md) to learn how to optimize your code.
