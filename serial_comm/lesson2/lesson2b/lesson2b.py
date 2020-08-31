@@ -42,7 +42,7 @@ while count < 5:
         # big endian byte order means the most significant byte contains the most signifcant bits
         val = int.from_bytes(readByte, byteorder='big',signed=False)
 
-        print('readByte: ', end = '')
+        print('readByte: ', end='')
         print(readByte)
         print('val:      ', end='')
         print(val)

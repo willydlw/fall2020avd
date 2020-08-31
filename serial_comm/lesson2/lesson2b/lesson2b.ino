@@ -9,24 +9,25 @@
  * 
 */
 
-// global variable
-unsigned int count;             // 0 - 65535
+#include <Arduino.h>
 
-
-void setup() {
-
-  // default config is 8 data bits, no parity, one stop bit  8N1
-  Serial.begin(9600);
-  count = 65533;
-  delay(100);
-}
-
-void loop() {
+int main()
+{
+  unsigned int count = 65533;             // 0 - 65535
   byte buf[2];
-  // transmit higher order byte first, lower order byte second
-  buf[1] = count & 0xff;            // low order byte
-  buf[0] = (count >> 8) & 0xff;     // higher order byte
-  Serial.write(buf, sizeof(buf));
-  ++count;
-  delay(500);
+  
+  init();
+  Serial.begin(9600);
+
+  while(1)
+  {
+    // transmit higher order byte first, lower order byte second
+    buf[1] = count & 0xff;            // low order byte
+    buf[0] = (count >> 8) & 0xff;     // higher order byte
+    Serial.write(buf, sizeof(buf));
+    ++count;
+    delay(500);
+  }
+
+  return 0;
 }

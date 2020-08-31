@@ -109,7 +109,7 @@ Instructions
 <br>
 <br>
 
-#### python source code - lesson2a.py
+#### python source code - lesson2b.py
 
 Description
 - The program opens the serial connection to the Arduino. The path "/dev/ttyACM0" is hard-coded in the program. If your path differs, change it before running the program.
@@ -128,6 +128,6 @@ Instructions
 #### Lesson 2b Example Output
 <br>
 
-![Lesson 2b output](./images/lesson2a_output.png "python lesson 2b output")
+![Lesson 2b output](./images/lesson2b_output.png "python lesson 2b output")
 
 <br>
