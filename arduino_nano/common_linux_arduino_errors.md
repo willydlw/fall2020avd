@@ -26,11 +26,14 @@ crw-rw---- 1 root dialout 166, 0 Aug 28 13:04 /dev/ttyACM0
 This says root is the owner of the file /dev/ttyACM0 and the dialout group has access privileges. The rw stand for read write privileges. 
 
 This may be solved by
-- adding user read write privileges
-- adding the user to dialout group
+- adding user read write privileges (temporary fix)
+- adding the user to dialout group (permanent fix)
 - both of the above
 
-First, let's see if adding read write privileges for you, the user will fix the problem. In the terminal, type the commands to add read write privileges and then list the file information again to see they have been added
+
+#### Adding User Read Write Privileges
+
+This is a temporary fix that will work as long as the board remains plugged in and Ubuntu is not shutdown and restarted. In the terminal, type the commands to add read write privileges and then list the file information again to see they have been added
 
 ```
 sudo chmod a+rw /dev/ttyACM0
@@ -46,6 +49,8 @@ crw-rw-rw- 1 root dialout 166, 0 Aug 28 13:04 /dev/ttyACM0
 
 Try uploading the Arduino file again. If you still get an error, try the next step of adding the user to the dialout group.
 
+#### Add User to dialout group
+
 First, let's see if you are a member of the dialout group. In the terminal, type the command `groups` to show to which groups you, the user, belong.
 
 The output shown below indicates that the user diane is not a member of the dialout group. 
@@ -57,7 +62,7 @@ diane adm cdrom sudo dip plugdev lpadmin sambashare docker
 To add a user to the dialout group, type the following command, but substitute your user name in place of the words username.
 
 ```
-sudo adduser username dialout
+sudo usermod -a -G dialout $USER
 ```
 
-Typing groups again likely will not show you have been added to the dialout group. There have been times where I have had to reboot Linux to have that update. But first, try uploading the Arduino program. 
+Typing groups may not show you have been added to the dialout group. There have been times where I have had to reboot Linux to have the group addition update. But first, try uploading the Arduino program. 
