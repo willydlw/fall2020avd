@@ -11,21 +11,22 @@
  *          The value 255 is tranmsitted as 11111111
  * 
 */
+#include <Arduino.h>
 
-// global variable
-byte count;             // 0 - 255
-
-
-void setup() {
+int main()
+{
+  byte count = 253;         // range of values 0-255
+  init();
 
   // default config is 8 data bits, no parity, one stop bit  8N1
   Serial.begin(9600);
-  count = 253;
-  delay(100);
-}
 
-void loop() {
-  Serial.write(count);
-  ++count;
-  delay(500);
+  while(1)
+  {
+    Serial.write(count);
+    ++count;
+    delay(500); 
+  }
+
+  return 0;
 }
