@@ -8,41 +8,46 @@
 const unsigned long BLINK_INTERVAL = 500;           // unit: milliseconds
 const unsigned long POSITION_UPDATE_INTERVAL = 300; // unit: milliseconds
 
-// global variables
-unsigned long blinkTime;                            // unit: milliseconds
-unsigned long xyTime;                               // unit: milliseconds
-int ledPinState;
 
-unsigned int x, y;
+int main()
+{
+  // local variables
+  unsigned long blinkTime;                         // unit: milliseconds
+  unsigned long xyTime;                            // unit: milliseconds
+  int ledPinState;
 
+  unsigned int x, y;
 
-void setup() {
+  init();
+
   Serial.begin(9600);
   pinMode(LED_BUILTIN, OUTPUT);         
   ledPinState = 0;
   digitalWrite(LED_BUILTIN, ledPinState);            
   blinkTime = millis();
-}
+  xyTime = millis();
 
-void loop() {
-
-  if( (millis() - blinkTime) >= BLINK_INTERVAL)
+  while(1)
   {
-    ledPinState = ledPinState ^ 0x01;     // toggle state
-    digitalWrite(LED_BUILTIN, ledPinState);
-    blinkTime = millis();
+    if( (millis() - blinkTime) >= BLINK_INTERVAL)
+    {
+      ledPinState = ledPinState ^ 0x01;     // toggle state
+      digitalWrite(LED_BUILTIN, ledPinState);
+      blinkTime = millis();
+    }
+  
+    if( (millis() - xyTime) >= POSITION_UPDATE_INTERVAL)
+    {
+      x = (unsigned int)random(0, 513);
+      y = (unsigned int)random(0, 513);
+      
+      Serial.print(x);
+      Serial.print(":");
+      Serial.println(y);
+      
+      xyTime = millis();
+    }
   }
 
-  if( (millis() - xyTime) >= POSITION_UPDATE_INTERVAL)
-  {
-    x = (unsigned int)random(0, 513);
-    y = (unsigned int)random(0, 513);
-    
-    Serial.print(x);
-    Serial.print(":");
-    Serial.println(y);
-    
-    xyTime = millis();
-  }
-
+  return 0; 
 }
