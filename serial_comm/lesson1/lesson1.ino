@@ -12,20 +12,23 @@
  * println transmits numbers as characters and appends the newline character
 */
 
+#include <Arduino.h>
 
-// global variable
-byte count;             // 0 - 255
+int main()
+{
+  byte count = 7;
 
-void setup() {
-
+  init();
+  
   // default config is 8 data bits, no parity, one stop bit  8N1
   Serial.begin(9600);
-  count = 7;
-  delay(100);
-}
 
-void loop() {
-  Serial.println(count);
-  ++count;
-  delay(500);
+  while(1)
+  {
+    Serial.println(count);
+    ++count;
+    delay(500);
+  }
+
+  return 0;
 }
