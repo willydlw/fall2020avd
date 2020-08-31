@@ -59,4 +59,5 @@ print(bytesRead)
 
 
 ser.close()
+print("closed serial connection, program finished")
     

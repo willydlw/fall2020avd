@@ -4,28 +4,28 @@
  * 
 */
 
-// global variable
-String msg;
+#include <Arduino.h>
 
-
-void setup() {
-
-  // default config is 8 data bits, no parity, one stop bit  8N1
+int main()
+{
+  String msg;
+  
+  init();
   Serial.begin(38400);
-  delay(100);
-}
 
-void loop() {
-
-  if(Serial.available() > 0)
+  while(1)
   {
-    msg = Serial.readStringUntil('\n');
-
-    // echo back the message received
-    Serial.println(msg);
+    if(Serial.available() > 0)
+    {
+      msg = Serial.readStringUntil('\n');
+  
+      // echo back the message received
+      Serial.println(msg);
+    }
+    else
+    {
+      delay(50);
+    }
   }
-  else
-  {
-    delay(50);
-  }
+  return 0;
 }
