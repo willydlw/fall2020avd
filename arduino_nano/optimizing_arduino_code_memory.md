@@ -35,7 +35,7 @@ If you have the same sequence of code statements in two or more places, consider
 
 ### Optimize this Arduino Sketch
 
-<p>The following program example blinks an led and prints messages at certain time intervals.
+<p>The following program, example1.ino, blinks an led and prints messages at certain time intervals.
 
 ```
 const unsigned long BLINK_INTERVAL = 500;
