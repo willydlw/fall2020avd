@@ -30,7 +30,7 @@ if __name__ == '__main__':
     #register the signal handler
     signal(SIGINT, handler)
 
-    portName = "/dev/ttyACM0"
+    portName = "/dev/ttyACM1"
     ser = serialConnect(portName)
     count = 0
 
@@ -45,6 +45,7 @@ if __name__ == '__main__':
 
         while ser.in_waiting < 1:
             pass 
+        print("called read_until")
         bytesRead = ser.read_until()
         print(bytesRead)
         

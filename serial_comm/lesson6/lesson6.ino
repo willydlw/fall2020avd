@@ -12,23 +12,31 @@ void blink(unsigned long interval)
   delay(interval/2);
 }
 
-void loop() {
+int main()
+{
+  init();
+  setup();
 
-  if(Serial.available() > 1)
+  while(1)
   {
-    byte data[2];
-    byte numRead;
-    numRead = Serial.readBytes(data,2);
-    if(numRead == 2)
-    {
-      blink(500);
-      int val = data[0] << 8 | data[1];
-      if(val == 512)
-        Serial.println(val);
-       else
-        Serial.println("harrumph");
+    if(Serial.available() > 1)
+    { 
+      Serial.print("available: ");
+      Serial.println(Serial.available());
+      byte data[2];
+      byte numRead;
+      numRead = Serial.readBytes(data,2);
+      if(numRead == 2)
+      {
+        blink(500);
+        int val = data[0] << 8 | data[1];
+        if(val == 512)
+          Serial.println(val);
+         else
+          Serial.println("harrumph");
+      }
     }
-    
-  }
+  } // end while(1)
 
+  return 0;
 }
