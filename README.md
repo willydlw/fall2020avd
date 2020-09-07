@@ -29,4 +29,16 @@ An introduction to matplotlib
 
 ## Module 4 - Serial Communication
 
+- Lesson 1 - Arduino serial.print, python serial readuntil
+- Lesson 2 - Arduino serial write, python serial read
+- Lesson 3 - pyserial write, Arduino readStringUntil
+- Lesson 4 - python signal interrupt, Ctrl+C
+- Lesson 5 - adding signal interrupt to python serial program
+- Lesson 6 - python transmits bytes to Arduino. Arduino assembles bytes into value.
+- Lesson 7 - experiment with Arduino Serial.readBytesUntil
+
 <br><br>
+
+## Module 5 - Digital Filtering
+
+Derive discrete form of first order low-pass filter, first order high-pass filter. Compare filtering algorithms: running average, exponentially moving average.
