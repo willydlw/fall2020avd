@@ -8,211 +8,64 @@ Ideal sensors will always generate perfect output, exactly matching the input be
 
 Noise is any unwanted signal value that is combined with the desired signal. Noise can be generated internally and/or externally. Internal noise is caused by imperfections in the electrical design or thermal noise due to changing temperature. External noise sources include electromagnetic interference, radio frequency interference, sudden large current draws from motors turning on and off, and physical vibration.
 
-External noise can be lessened with shielding, vibration damping, and environmental temperature control. Eliminating internal noise, due to electrical design imperfections is beyond our control, as we are not manufacturing the sensor. Our only physical control is correctly wiring the sensor circuit, avoiding any loose connections, and reducing the length of any wiring leads to avoid induced noise.
+External noise can be lessened with shielding, vibration damping, and environmental temperature control. Eliminating internal noise, due to electrical design imperfections is beyond our control, as we are not manufacturing the sensor. Our only physical hardware control is correctly wiring the sensor circuit, avoiding any loose connections, and reducing the length of any wiring leads to avoid induced noise.
 <br>
 <br>
 
 ## Filtering Objective
+
 Our objective is to obtain sensor data that accurately represents the measured environment, by filtering out noise. The filter should smooth erratic sensor data with as little time delay as possible.
 <br>
 <br>
 
-## Filtering Algorithms
+## What is a Filter?
 
-We will look at three commonly implemented filtering algorithms:
-1. Averaging
-2. Running average
-3. Exponential Filter
+A filter is a circuit capable of passing (or amplifying) certain frequencies while attenuating other frequencies. Thus, a filter can extract important frequencies from signals that also contain undesirable or irrelevant frequencies.
 <br>
 <br>
 
-## 1. Averaging Filter
+## Types of Filters
 
-Averaging works by adding together a number of measurements and dividing the sum by the number of measurements. 
+- Low-pass filter 
+- High-pass filter
+- Band-pass filter
+- Band-reject (band-stop, notch) filter
 
-Average measurement code:
+The image below gives a general idea how each filter works. Note that the terms "high" and "low" refer to a relative value with respect to a filter's cutoff frequency.<br><br>
 
-```
-float sum = 0.0;
-int numMeasurements = 5;
-for(int i = 0; i < numMeasurements; ++i)
-{
-    sum += getSensorMeasurement();
-    delay(10);
-}
-average = sum / numMeasurements;
 
-``` 
+![Filter Types](./images/four_major_filters.jpg "Filter Types")[1](https://www.allaboutcircuits.com/uploads/articles/four_major_filters.jpg)
 
-The code contains a assumed delay between each measurement. Sensors require time to stabilize between each measurement. The number of measurements is an assumed value as well. The *best* number of measurements will vary from sensor to sensor. 
+<br><br>
 
-Noise has less effect on the average, when there are more measurements. There is a diminishing return on the number of measurements. The average of 51 values likely will not be less noisy than 50 values.
+## Terminology
+
+Response curves are used to describe how a filter behaves. A response curve is simply a graph showing an attenuation ratio (VOUT / VIN) versus frequency (see figure below). Attenuation is commonly expressed in units of decibels (dB). Frequency can be expressed in two forms: either the angular form ω (units are rad/s) or the more common form of f (units of Hz, i.e., cycles per second). These two forms are related by ω = 2πf. Finally, filter response curves may be plotted in linear-linear, log-linear, or log-log form. The most common approach is to have decibels on the y-axis and logarithmic frequency on the x-axis. <br><br>
+
+
+![Response Curvers](./images/Davis_intro_to_filters_filter_types.jpg "Response Curves")[2](https://www.allaboutcircuits.com/uploads/articles/Davis_intro_to_filters_filter_types.jpg)
+
+<br><br>
+
+Terminology used to describe filter response curves:
+
+**3dB Frequency** (f<sub>3dB)</sub>. This term, pronounced "minus 3dB frequency", corresponds to the input frequency that causes the output signal to drop by -3dB relative to the input signal. The -3dB frequency is also referred to as the cutoff frequency, and it is the frequency at which the output power is reduced by one-half (which is why this frequency is also called the "half-power frequency"), or at which the output voltage is the input voltage multiplied by 1/√2 . For low-pass and high-pass filters there is only one -3dB frequency. However, there are two -3dB frequencies for band-pass and notch filters—these are normally referred to as f<sub>1</sub> and f<sub>2</sub>.
+
+**Center frequency** (f<sub>0</sub>). The center frequency, a term used for band-pass and notch filters, is a central frequency that lies between the upper and lower cutoff frequencies. The center frequency is commonly defined as either the arithmetic mean (see equation below) or the geometric mean of the lower cutoff frequency and the upper cutoff frequency.
+
+**Bandwidth** (β or B.W.). The bandwidth is the width of the passband, and the passband is the band of frequencies that do not experience significant attenuation when moving from the input of the filter to the output of the filter.
+
+    Stopband frequency (fs). This is a particular frequency at which the attenuation reaches a specified value.
+    
+    For low-pass and high-pass filters, frequencies beyond the stopband frequency are referred to as the stopband.
+    
+    For band-pass and notch filters, two stopband frequencies exist. The frequencies between these two stopband frequencies are referred to as the stopband.
+
+**Quality factor** (Q): The quality factor of a filter conveys its damping characteristics. In the time domain, damping corresponds to the amount of oscillation in the system’s step response. In the frequency domain, higher Q corresponds to more (positive or negative) peaking in the system’s magnitude response. For a bandpass or notch filter, Q represents the ratio between the center frequency and the -3dB bandwidth (i.e., the distance between f1 and f2).
+<br><br>
+
+## Physical and Digital Filters
+
+The filters described above can be (1) physically implemented with circuitry and(2) implemented as a digital filter. In signal processing, a digital filter is a system that performs mathematical operations on a sampled, discrete-time signal to reduce or enhance certain aspects of that signal. We will focus on digital filter implementation.
 <br>
 <br>
-
-### Averaging Filter Pros & Cons
-
-Pros:
-- simple to calculate
-
-Cons:
-- time required to make measurements
-- power required to make measurements
-<br>
-<br>
-
-## 2. Running Average Filter
-
-The running average makes one measurement, adds it to the sum, and then computes the average. 
-<br>
-
-### Running average code
-```
-const int RunAverageCount = 5;
-float measurementBuffer[RunAverageCount] = {0.0};
-int dataIndex = 0;
-
-float rawSensorData = getSensorMeasurement();
-measurementBuffer[dataIndex] = rawSensorData;
-dataIndex += 1;
-if(dataIndex >= RunAverageCount)
-{
-    dataIndex = 0;
-}
-
-float runningAverageMeasurement = 0.0;
-for(int i = 0; i < RunAverageCount; ++i)
-{
-    runningAverageMeasurement += measurementBuffer[i];
-}
-
-runningAverageMeasurement /= RunAverageCount;
-
-delay(10);
-
-```
-<br>
-<br>
-
-### Running Average Filter Pros & Cons
-pros:
-- produces a single filtered output faster than averaging method
-
-cons:
-- at startup(reset), buffer contains no measurements
-- produces a slower response to changes in measurements
-- requires more memory for measurement history
-<br>
-<br>
-
-## 3. Exponentially Moving Average Filter (EMA)
-
-An exponential moving average filter (EMA), also known as an exponentially weighted moving averge (EWMA) is a first-order infinite impulse response filter that applies weighting factors which decrease exponentially over time.
-
-The filter's output, y, is a weighted average of the current input and previous inputs, with the weighting decreasing exponentially.
-
-<p align="center">
-    <b>
-    y<sub>n</sub> = &alpha; (x<sub>n</sub> + (1-&alpha;) x<sub>n-1</sub> + (1-&alpha;)<sup>2</sup> x<sub>n-2</sub> + (1-&alpha;)<sup>3</sup> x<sub>n-3</sub> + ... )
-    </b><br>
-</p>
-<br>
-
-The formula, as written above, is complex to implement, in terms of changing the weighting of past inputs over time. The formula can be rewritten, with a limited number of terms, as a recursive formula, using the past output from the filter as a filter input.
-
-Let's start with the initial sensor reading at time t = 0.
-
-y<sub>0</sub> = &alpha;x<sub>0</sub><br><br>
-
-The next measurement at time t = 1, produces the equation
-
-y<sub>1</sub> = &alpha;(x<sub>1</sub> + (1-&alpha;)x<sub>0</sub>)<br>
-     = &alpha;x<sub>1</sub> + &alpha;x<sub>0</sub> + -&alpha;<sup>2</sup>x<sub>0</sub><br><br>
-
-Subsitute y<sub>0</sub> for &alpha;x<sub>0</sub> and write the equation as y<sub>1</sub> = &alpha;x<sub>1</sub> + y<sub>0</sub> + -&alpha;<sup>2</sup>x<sub>0</sub><br>
-
-Solve the equation y<sub>0</sub> = &alpha; x<sub>0</sub> in terms of x<sub>0</sub>:   x<sub>0</sub> = y<sub>0</sub>/&alpha;<br>
-
-Substitute for x<sub>0</sub>: y<sub>1</sub> = &alpha;x<sub>1</sub> + y<sub>0</sub> + -&alpha;<sup>2</sup>y<sub>0</sub> / &alpha;<br>
-
-which simplifies to y<sub>1</sub> = &alpha;x<sub>1</sub> + y<sub>0</sub> -&alpha;y<sub>0</sub> = &alpha;x<sub>1</sub> + (1-&alpha;) y<sub>0</sub> <br><br>
-
-Similarly, it can be shown that the next measurement will produce y<sub>2</sub> = &alpha;x<sub>2</sub> + (1-&alpha;) y<sub>1</sub> <br><br>
-
-The formula then reduces to <b>y<sub>n</sub> = &alpha;x<sub>n</sub> + (1-&alpha;) y<sub>n-1</sub></b><br><br>
-
-The amount of smoothing is controlled by the weighting parameter &alpha;, where 0 <= &alpha; <= 1. When the weight is large, &alpha; = 0.90, the filter does not smooth the measurements very much, but responds quickly to changes. If the weight is low, &alpha; = 0.10, the filter smooths the measurements a lot, but does not respond quickly to changes.
-<br>
-<br>
-
-
-### Selecting &alpha;
-
-The value of alpha may be computed, based on a desired cutoff frequency. The cutoff frequency *f<sub>c</sub>* is defined as the frequency where the power gain is one half. It's also called the *-3dB* point, because 10 log<sub>10</sub> (1/2) = -3.0 dB.
-
-There are several formulas for relating &alpha; to the cutoff frequency *f<sub>c</sub>*. One such formula is shown below.
-
-&omega;<sub>c</sub> = arccos( (&alpha;<sup>2</sup> + 2&alpha; - 2)/ (2&alpha; - 2))  rad/sample 
-
-The sampling frequency, in Hertz (samples/sec), is *f<sub>s</sub>* = (&omega;<sub>c</sub>) / (2 &pi;)
-
-The formula was derived, at the link below. Read this for a thorough presentation of the derivation and pole-zero characteristics of the filter.
-
-https://tttapa.github.io/Pages/Mathematics/Systems-and-Control-Theory/Digital-filters/Exponential%20Moving%20Average/Exponential-Moving-Average.html <br><br>
-
-
-### How does &alpha; affect smoothing and response to change?
-
-In general, the higher the &alpha;, the more noise is filtered out, but more lag is introduced when reacting to real data changes.
-
-The image below illustrates the impulse response of different alpha values over time. Smaller alpha values filter out the implulse noise faster, as past output is weighted more heavily than current input.<br>
-
-![EMA Impulse Response](./images/impulseResponse.png "Smoothing over time")
-<br>
-<br>
-
-The image below illustrates the step response of different alpha values over time. Larger alpha values respond to a change in signal faster, as current input is weighted more heavily than past.<br>
-
-![EMA Step Response](./images/stepResponse.png "Reflecting change in signal over time")
-<br>
-<br>
-
-[Source code](ema_step_impulse_response.py)
-
-
-### Initializing Filter Values
-
-- Compute the average of a few data input readings as the initial output
-- For the first value, y[0], set the output equal to the input. (No filtering)
-- For a control system, set the initial output to the desired set point
-<br>
-<br>
-
-### EMA Filter code
-```
-float alpha = 0.2;
-float previousOutput = 0.0;
-
-while(1)
-{
-    currentInput = getSensorData();
-    currentOutput = (1-alpha)*previousOutput + alpha * currentInput;
-    previousOutput = currentOutput;
-    delay();
-}
-
-```
-
-
-### EMA pros and cons
-
-pros:
-- requires little memory
-- few computations
-- weight allows selection of the amount of filtering
-
-cons:
-- requires tuning the weight value 
-
-
-> See the [square wave example](./square_wave/README.md)
