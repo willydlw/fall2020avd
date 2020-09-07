@@ -70,4 +70,4 @@ The filters described above can be (1) physically implemented with circuitry and
 <br>
 <br>
 
-Next, we study the [digital low-pass filter](./digital_lowpass_filter.md).
+Next, we derive the general equation for a first-order [digital low-pass filter](digital_lowpass_filter.md) and a first-order [digital high-pass filter](digital_highpass_filter.md).

@@ -9,6 +9,21 @@
 [1]: https://www.electronics-tutorials.ws/wp-content/uploads/2013/08/fil5.gif?fit=326%2C161
 <br>
 
+## Behavioral Circuit Analysis
+
+The capacitive reactance of the capacitor in the circuit is X<sub>C</sub> = 1 / (2 &pi; fC), units: Ohms
+
+Capacitor reactance varies inversely with frequency, while the resistor remains constant as frequency changes. At low frequencies, X<sub>C</sub> will be large compared to the resistive value of the resistor.
+
+The circuit impedance, Z for the resistor in series with the capacitor is Z = sqrt(R<sup>2</sup> + X<sub>C</sub><sup>2</sup>)
+
+At low frequencies the voltage potential, VC across the capacitor will be much larger than the voltage drop, VR developed across the resistor. At high frequencies the reverse is true with VC being small and VR being large due to the change in the capacitive reactance value. At high frequencies, with VC being small or zero, no signal passes through the filter.
+
+V<sub>C</sub> = X<sub>C</sub>/Z
+
+
+<br><br>
+
 ## Time-Domain Analysis
 
 Using Kirchhoff's Laws and the definition of capacitance:
