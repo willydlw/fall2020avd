@@ -74,10 +74,8 @@ where
 - y[n-1] previous filter ouput
 - x[n-1] previous input
 - x[n]   current input
-
-
-
+<br><br>
 
 ## Summary
 
-High-pass filtering is the opposite of low-pass filtering. Instead of smoothing out a signal, you’re left with all the noise and rapid changes. When the original signal stabilizes around any steady value, the high-passed signal goes to zero.
+High-pass filtering is the opposite of low-pass filtering. Instead of smoothing out a signal, you’re left with any high frequency noise and rapid changes.

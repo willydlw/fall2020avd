@@ -70,4 +70,6 @@ The filters described above can be (1) physically implemented with circuitry and
 <br>
 <br>
 
-Next, we derive the general equation for a first-order [digital low-pass filter](digital_lowpass_filter.md) and a first-order [digital high-pass filter](digital_highpass_filter.md).
+Next, we derive the general equations for a first-order [digital low-pass filter](digital_lowpass_filter.md) and a first-order [digital high-pass filter](digital_highpass_filter.md). Following that is a discussion of some [filtering algorithms](filtering_algorithms.md).
+
+For more information on recursive IIR and FIR filters, see [digital filters](introduction_to_digital_filters.md)
