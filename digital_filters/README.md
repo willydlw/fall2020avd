@@ -70,4 +70,4 @@ The filters described above can be (1) physically implemented with circuitry and
 <br>
 <br>
 
-Next, we study the [digital low-pass filter](./digital_low_pass_filter.md).
+Next, we study the [digital low-pass filter](./digital_lowpass_filter.md).
