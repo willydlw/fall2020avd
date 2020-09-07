@@ -69,3 +69,5 @@ Terminology used to describe filter response curves:
 The filters described above can be (1) physically implemented with circuitry and(2) implemented as a digital filter. In signal processing, a digital filter is a system that performs mathematical operations on a sampled, discrete-time signal to reduce or enhance certain aspects of that signal. We will focus on digital filter implementation.
 <br>
 <br>
+
+Next, we study the [digital low-pass filter](./digital_low_pass_filter.md).
