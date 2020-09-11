@@ -143,7 +143,7 @@ The format character 'f' is used for the standard size C and python 4 byte float
 
 Why is the byte size of 4 significant? The Arduino double data type is 4 bytes. The trig functions we will use later in Arduino use double data types. Here we insure that the number of bytes transmitted from python matches Arduino data requirements.
 
-Study and run the [inputFreq.py](input.py) example. The output for the frequency input 64.0 is shown below. When developing and testing, this type of confirmation about data types, lengths, and memory content helps with the debugging process.
+Study and run the [inputFreq.py](./frequencyAck/inputFreq.py) example. The output for the frequency input 64.0 is shown below. When developing and testing, this type of confirmation about data types, lengths, and memory content helps with the debugging process.
 
 ```
 enter signal frequency in range [1.0,250.0] 64.0
