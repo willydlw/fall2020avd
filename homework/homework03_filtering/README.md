@@ -84,7 +84,7 @@ Arduino's Serial.println transmits ASCII character data and appends the '\n' cha
 
 Arduino's Serial.readBytesUntil function will be used to read "ACK" until the '\n' character is found. Python's serial write function will transmit the "ACK" message.
 
-See the [lesson7.ino](../../serial_comm/lesson7/lesson7.ino) example and [README.md](../../serial_comm/lesson7/README.md )to experiment with readBytesUntil.
+See the [lesson7.ino](../../serial_comm/lesson7/lesson7.ino) example and [README.md](../../serial_comm/lesson7/README.md ) to experiment with readBytesUntil.
 
 The following videos explain how the code is developed and tested:
 - https://youtu.be/b52ksbX6J94
