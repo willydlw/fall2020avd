@@ -1,13 +1,12 @@
-# Homework 2 
+# Homework 3 - Digital Filtering, Serial Comm, State
 
-This module contains an example approach to solving the [homework](homework02_serial_plotting_filtering.pdf) problem. The solution approach breaks the problem statement into separate parts, solves those parts individually, and then then them into a workable solution.
+This module contains an example approach to help you begin solving the [homework](./homework03_serial_plotting_filtering.docx) problem. The solution approach breaks the problem statement into separate parts, solves those parts individually, and then then them into a workable solution.
 
-Note that we strive to solve the sub-problems, not optimally with the first attempt, simply implementing a working solution. After a workable, well-tested solution is created, optimization, if needed, is a later step.
-
+Note that we strive to solve the sub-problems, not optimally with the first attempt, simply implementing a working solution. After a workable, well-tested solution is created, optimization, if needed, is a later step.<br><br>
 
 ## General Problem Description
 
-The Arduino will generate a noisy periodic signal, filter it with a first-order low pass digital filter and serially transmit both the noisy signal and filtered signal values to a python program. The python program will write the signal data to files and plot the signal data.
+The Arduino will generate a noisy periodic signal, filter it with a first-order low pass digital filter and serially transmit both the noisy signal and filtered signal values to a python program. The python program will write the signal data to files and plot the signal data.<br><br>
 
 ## Homework Concepts
 - Serial communication, Arduino to python, python to Arduino
@@ -17,6 +16,7 @@ The Arduino will generate a noisy periodic signal, filter it with a first-order 
     - Nyquist sampling criteria
 - Digital low pass filter
 - Finite state machine behavior
+<br><br>
 
 ## Finite State Behavior
 
@@ -35,36 +35,48 @@ States for both the Arduino and python programs are specified in the assignment.
 |     | 9. Return to state 4 |
 
 Each of these states represents a sub-problem to be solved. We start with initializing the serial hardware connections.
+<br><br>
 
 ## Initialize Serial
 
-Initializing the serial ports requires configuration decisions regarding 
+Initializing the serial port requires configuration decisions regarding 
 - baud rate
 - start bit, stop bits, data bits, parity bit
 - read and write timeouts
 
-Let's start with the easy one: 1 start bit, 1 stop bit, 8 data bits, no parity bit. This is the Arduino and python default serial configuration.
+Let's start with the easy one: 1 start bit, 1 stop bit, 8 data bits, no parity bit. This is the Arduino and python default serial configuration which meets our requirements.
 
-Baud rate depends on the speed needed to transmit the signal data from the Arduino to python. What is the highest possible sampling frequency? How much data is transmitted in that interval? 
+Baud rate depends on the speed needed to transmit the signal data from the Arduino to python. 
+- What is the highest possible sampling frequency? 
+- How much data is transmitted in that interval? 
 
 For read and write timeouts, we need to know if blocking behavior will meet our requirements. We have to examine the states in which there are Serial read and write operations and determine if a blocking read and blocking write will work with the program control flow requirements. A blocking read/write means that operation does not return until the read/write operation finishes. 
 
-If our programs required receiving multiple instructions simultaneously, then blocking behavior is a poor solution. The only interrupt to be handled is a SIGINT on the python side. That interrupt is designed to cause the python program to shut down gracefully, saving data, and releasing system resources by closing connections. Waiting for a blocking serial read or write might result in the interrupt not working as expected. We have not yet studied how to handle serial functions with timeouts in python, so we will allow read and write to block.
+The problem specification indicates that both the Arduino and python states have a sequential flow, transitioning from one state to another upon completing tasks and receiving acknowledgments. There are no behaviors requiring the Arduino to stop in the middle of a serial read/write to execute another task.
 
-The Arduino defaults for read and write timeouts will meet our needs. 
+The only interrupt to be handled is a SIGINT on the python side. That interrupt is designed to cause the python program to shut down gracefully, saving data, and releasing system resources by closing connections. Waiting for a blocking serial read or write might result in the interrupt not working as quickly as expected. We have not yet studied how to handle serial functions with timeouts in python, so we will allow read and write to block.
 
+The Arduino defaults for read and write timeouts will meet our needs as well.
+<br><br><br>
 
 ## Ready-Acknowledge Implementation
 
-The next states after intialization control the ready-acknowledge sequence. Here, we need to decide on the ready signal and acknowledge signal. The character string "READY" and character string "ACK" will serve as these signals.
+After the serial initialization state, the next Arduino/python states are the ready-acknowledge sequence. Here, we need to decide on the ready signal and acknowledge signal. The character string "READY" and character string "ACK" will serve as these signals.
+<br>
 
-### Arduino Ready-Acknowledge Behavior
+**Arduino Ready-Acknowledge Behavior**
 
-Arduino serially transmits a ready signal to the python program, once per second. It continues transmitting the ready signal until an acknowledgement from the python program is received.
+- Arduino serially transmits a ready signal to the python program, once per second. 
+- Continue transmitting the ready signal until an acknowledgement from the python program is received.
+<br><br>
 
-### python Ready-Acknowledge Behavior
+**python Ready-Acknowledge Behavior**
 
-Wait to receive ready signal from Arduino, transmit acknowledgement to Arduino in response to receiving ready signal.
+- Wait to receive ready signal from Arduino
+- transmit acknowledgement to Arduino in response to receiving ready signal.
+<br><br>
+
+**Handling Character Strings**
 
 Character strings require multiple byte transmission and reception. Terminating these strings with a '\n' character is a convenient way to indicate the end of message condition. Arduino and python both have serial functions designed to handle these messages.
 
@@ -72,26 +84,41 @@ Arduino's Serial.println transmits ASCII character data and appends the '\n' cha
 
 Arduino's Serial.readBytesUntil function will be used to read "ACK" until the '\n' character is found. Python's serial write function will transmit the "ACK" message.
 
-See the [lesson7.ino](../lesson7/lesson7.ino) example to experiment with readBytesUntil.
+See the [lesson7.ino](../../serial_comm/lesson7/lesson7.ino) example and [README.md](../../serial_comm/lesson7/README.md )to experiment with readBytesUntil.
 
-Watch the following videos to see how the code is developed and tested:
-
-https://youtu.be/b52ksbX6J94
-
-https://youtu.be/pcqIim0fAj4 
-
+The following videos explain how the code is developed and tested:
+- https://youtu.be/b52ksbX6J94
+- https://youtu.be/pcqIim0fAj4 
+<br><br><br>
 
 ## Frequency - Acknowledge Implementation
 
-### Python Send Frequency Behavior
+After completing the ready-acknowlege, the next Arduino/python states are the frequency-acknowledge sequence. Here, we need to decide how python will transmit the frequency. Before integrating this into the final programming solution, write separate programs to implement and test this sub-problem.
+<br>
 
-#### Frequency Input
+**Arduino Frequency-Acknowledge Behavior**
 
-Frequency is a user input, with a maximum of 250 Hz. The assignment does specify if this is an integer or floating point data type. Since we have worked with integer data in previous examples, let's work with the floating point data type.
+- Arduino waits to receive the signal frequency from the python program
+- After receiving the signal frequency, send acknowledgment
+<br><br>
 
-The input function reads information from the keyboard and returns it as a string. Simply passing that string to the float function will convert it to floating point.
+**python Ready-Acknowledge Behavior**
 
-Another consideration is the minimum frequency. Do we want to allow DC, 0 Hz? For this example, the chosen minimum is 1 Hz.
+Python program transmits a signal frequency in units of Hz to Arduino 10 times per second until Arduino acknowledges receipt of signal frequency.
+
+- Transmit signal frequency in units of Hz to Arduino 
+- Wait for acknowledgment
+- Retransmit if ACK not recieved within 1/10 second.
+<br><br>
+
+
+**Python Send Frequency Test Program**
+
+Frequency Input - Frequency is a user input, with a maximum of 250 Hz. The assignment does not specify if this is an integer or floating point data type. Since we have worked with integer data in previous serial communication examples, let's work with the floating point data type.
+
+The input function reads information from the keyboard and returns it as a string. Simply passing that string to the float function will convert it to floating point. (Note: Assumes user inputs numeric data. Implement the simplest basic, working case first. Add other forms of validation later, if there is time.)
+
+Another consideration is the minimum frequency. Do we want to allow DC, 0 Hz? The assignment requires generating a periodic signal. Zero Hz, DC, will be excluded. For the example code below, the chosen minimum signal frequency is 1 Hz.
 
 
 ```
@@ -102,10 +129,11 @@ def getSignalFrequency():
         freq = float(input('enter signal frequency in range [1.0,250.0] '))
     return freq
 ```
+<br>
 
-#### Transmitting Frequency
+**Transmitting Signal Frequency**
 
-The floating point frequency value must be converted to type bytes or bytearray for the serial write function. The struct library is used to interpret bytes as packed binary data. The struct.pack function is used to convert the float variable freq to a bytes object.
+The floating point frequency value must be converted to type bytes or bytearray for the python serial write function. The struct library is used to interpret bytes as packed binary data. The struct.pack function is used to convert the float variable freq to a bytes object.
 
 `struct.pack(format, v1, v2, ...)`
 
@@ -136,5 +164,8 @@ Now, we are ready to transmit the frequency from python to Arduino.
 
 Debugging python to Arduino float transmission: https://youtu.be/pvRMq7sQlGQ
 
+<br><br>
 
+## Summary
 
+We have broken down the homework problem into sub-problems and solved two major sub-problems. Next, write separate programs to implement Arduino generating and transmitting the signal data to python. Write the corresponding python program to receive the data. Writing these programs using functions will make integration into the final working program easier in the long run. Write functions and avoid global variables.
