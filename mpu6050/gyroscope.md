@@ -1,7 +1,7 @@
 ## What is a Gyroscope?
 
 <p>Gyroscopes, or gyros, are devices that measure or maintain rotational motion. MEMS (microelectromechanical system) gyros are small, inexpensive sensors that measure angular velocity. The units of angular velocity are measured in degrees per second (°/s) or revolutions per second (RPS). Angular velocity is simply a measurement of speed of rotation.</p>
-<p>A gyroscope sensor can be used to determine orientation and are found in most autonomous navigation systems. For example, if you want to balance a robot, a gyroscope can be used to measure rotation from the balanced position and send corrections to a motor.</p>
+<p>A gyroscope sensor can be used to determine orientation.  They are found in most autonomous navigation systems. For example, if you want to balance a robot, a gyroscope can be used to measure rotation from the balanced position and send corrections to a motor.</p>
 
 ## How a gyroscope works
 
@@ -11,32 +11,24 @@ The gyroscope measures angular rotation about a fixed axis. A triple axis MEMS g
 
 <p>MEMS gyroscopes measure angular rate by means of Coriolis acceleration. The Coriolis effect can be explained as follows, see figure below. Consider yourself standing on a rotating platform, near the center. Your speed relative to the ground is shown as the blue arrow lengths. If you were to move to a point near the outer edge of the platform your speed would increase relative to the ground, as indicated by the longer blue arrow. The rate of increase of your tangential speed, caused by your radial velocity, is the Coriolis acceleration.</p>
 
-![Coriolis ](./images/coriolis.png "coriolis")[2]
-
-[2] https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure1.png?w=900&la=en
+![Coriolis ](./images/coriolis.png "coriolis")[2](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure1.png?w=900&la=en)
 
 
 <p>If Ω is the angular rate and r is the radius, the tangential velocity is Ωr. So if r changes at speed v there will be a tangential acceleration Ωv. This is half of the Coriolis acceleration. There is another half from changing the direction of the radial velocity giving a total of 2Ωv. If you have a mass (M), the platform must apply a force—2MΩv—to cause that acceleration, and the mass experiences a corresponding reaction force. The gryscope takes advantage of this effect by using a resonating mass analogous to the person moving out and in on a rotating platform. The mass is micromachined from polysilicon and is tethered to a polysilicon frame so that it can resonate only along one direction.</p>
 
 <p>The figure below shows that when the resonating mass moves toward the outer edge of the rotation, it is accelerated to the right and exerts on the frame a reaction force to the left. When it moves toward the center of the rotation it exerts a force to the right, as indicated by the green arrows.</p>
 
-![Coriolis Demonstration ](./images/coriolis2.png "Coriolis Demonstration")[3]
-
-[3] https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure2.png?w=900&la=en
+![Coriolis Demonstration ](./images/coriolis2.png "Coriolis Demonstration")[3](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure2.png?w=900&la=en)
 
 
 <p>To measure the Coriolis acceleration, the frame containing the resonating mass is tethered to the substrate by springs at 90° relative to the resonating motion, as shown below. This figure also shows the Coriolis sense fingers that are used to sense displacement of the frame through capacitive transduction in response to the force exerted by the mass.</p>
 
-![Mechanical Structure](./images/gyromechanical.png "Gyro Mechanical Structure")[4]
-
-[4] https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure3.png?w=900&la=en
+![Mechanical Structure](./images/gyromechanical.png "Gyro Mechanical Structure")[4](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure3.png?w=900&la=en)
 
 
 <p>The figure below shows the complete structure, demonstrates that as the resonating mass moves and as the surface to which the gyroscope is mounted rotates, the mass and its frame experience the Coriolis acceleration and are translated 90° from the vibratory movement. As the rate of rotation increases, so does the displacement of the mass and the signal derived from the corresponding capacitance change. It should be noted that the gyroscope may be placed anywhere on the rotating object and at any angle, so long as its sensing axis is parallel to the axis of rotation</p>
 
-![Mechanical Structure](./images/gyro4.png "Gyro Mechanical Structure")[4]
-
-[4] https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure4.png?w=900&la=en
+![Mechanical Structure](./images/gyro4.png "Gyro Mechanical Structure")[4](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure4.png?w=900&la=en)
 
 <br>
 <br>

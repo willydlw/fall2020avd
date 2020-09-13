@@ -23,17 +23,21 @@
 - In general, they measure force by sensing how a mass presses on something when a force acts on it.
     - Piezoelectric effect - microscopic crystal structures, stressed by accelerative forces, cause a voltage to be generated. 
 
-    ![piezoelectric accelerometer](./images/piezoelectric-accelerometer.png "capacitive accelerometer")[2](https://cdn4.explainthatstuff.com/capacitive-accelerometer.png)
+    ![piezoelectric accelerometer](./images/piezoelectric-accelerometer.png "capacitive accelerometer")[2]
+    
+    [2] https://cdn4.explainthatstuff.com/capacitive-accelerometer.png
 
     - Change in capacitance - If you have two microstructures next to each other, they have a certain capacitance between them. If an accelerative force moves one of the structures, then the capacitance will change. Add some circuitry to convert from capacitance to voltage, and you will get an accelerometer. 
 
-    ![capacitive accelerometer](./images/capacitive_accelerometer.png "capacitive accelerometer")[3](https://cdn4.explainthatstuff.com/capacitive-accelerometer.png)
+    ![capacitive accelerometer](./images/capacitive_accelerometer.png "capacitive accelerometer")[3]
+    
+    [3] https://cdn4.explainthatstuff.com/capacitive-accelerometer.png
 
     **MEMS Accelerometer**
 
     It measures acceleration by measuring change in capacitance. Its micro structure looks something like this. It has a mass attached to a spring which is confined to move along one direction and fixed outer plates. So when an acceleration in the particular direction will be applied the mass will move and the capacitance between the plates and the mass will change. This change in capacitance will be measured, processed and it will correspond to a particular acceleration value.
 
-    ![MEMS accelerometer](./images/MEMS-Accelerometer-How-It-Works.jpg "MEMS accelerometer")[3]
+    ![MEMS accelerometer](./images/MEMS-Accelerometer-How-It-Works.jpg "MEMS accelerometer")[4]
 
     [4] https://howtomechatronics.com/wp-content/uploads/2015/11/MEMS-Accelerometer-How-It-Works.jpg
 <br>
