@@ -4,7 +4,7 @@
 
 ![Roll Pitch Yaw](./images/rollpitchyaw.png "roll pitch yaw")[1](https://xmarklabs.com/wp-content/uploads/2017/04/rollpitchyaw-300x292.png)
 
-<p> This module focuses on the MPU-6050 sensor as an interial measurement unit. The lessons help us become familiar with the hardware capabilities and configuration. Relative to our self-balancing robot project, this sensor will help the robot maintain an upright position and provide velocity information.</p>
+<p> This module focuses on the MPU-6050 sensor as an interial measurement unit. The lessons help us become familiar with the hardware capabilities and configuration. Relative to our robot project, this sensor will help estimate the robot's position and velocity.</p>
 <p>The following sections provide an overview of the MPU-6050 and the lesson series.</p>
 <br>
 
