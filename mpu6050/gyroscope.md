@@ -28,7 +28,7 @@ The gyroscope measures angular rotation about a fixed axis. A triple axis MEMS g
 
 <p>The figure below shows the complete structure, demonstrates that as the resonating mass moves and as the surface to which the gyroscope is mounted rotates, the mass and its frame experience the Coriolis acceleration and are translated 90° from the vibratory movement. As the rate of rotation increases, so does the displacement of the mass and the signal derived from the corresponding capacitance change. It should be noted that the gyroscope may be placed anywhere on the rotating object and at any angle, so long as its sensing axis is parallel to the axis of rotation</p><br><br>
 
-![Mechanical Structure](./images/gyro4.png "Gyro Mechanical Structure")[4](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure4.png?w=900&la=en)<br><br>
+![Mechanical Structure](./images/gyro4.png "Gyro Mechanical Structure") [4](https://www.analog.com/-/media/analog/en/landing-pages/technical-articles/mems-gyroscope-provides-precision-inertial-sensing/figure4.png?w=900&la=en)<br><br>
 
 
 ## How to Select a Gyro
