@@ -1,3 +1,11 @@
+/* lesson 2 - MPU6050 
+      - establish I2C communication with sensor
+      - Serial print used to report 
+        - success or failure testing I2C communication between Arduino & sensor
+        - print state of power management register 1
+        - print state of configuration register
+        - accelerometer and gyroscope default configuration settings 
+*/
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -217,6 +225,9 @@ int main(void)
     reportAccelConfigState(MPU6050_ADDRESS_AD0_LOW);
   }
 
-  while(1);
+  while(1)
+  {
+    delay(1000);
+  }
   return 0;
 }
