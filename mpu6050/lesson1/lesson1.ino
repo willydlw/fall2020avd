@@ -7,24 +7,41 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-// MPU 6050 I2C address
-#define MPU6050_ADDRESS_AD0_LOW     0x68   // i2c address pin low (GND), default
+// MPU 6050 I2C address controlled by AD0 pin
+#define MPU6050_ADDRESS_AD0_LOW     0x68   // i2c address AD0 pin low (GND), default for InvenSense
+#define MPU6050_ADDRESS_AD0_HIGH    0x69   // i2c address AD0 pin high (VCC)
+#define MPU6050_ADDRESS_DEFAULT     MPU_ADDRESS_AD0_LOW
+
 
 // MPU 6050 register addresses
 #define MPU6050_RA_PWR_MGMT_1       0x6B
 #define MPU6050_RA_WHO_AM_I         0x75  
+
+// value we expect to read from who am i register
+#define EXPECTED_WHO_AM_I_RESPONSE  0x68
 
 
 bool testCommunication(uint8_t devAddr)
 {
   uint8_t state;
   state = readByte(devAddr, MPU6050_RA_WHO_AM_I);
-  if(state == 0x72){
-    Serial.println("success, testCommunication\n");
+  
+  /*  Documentation - Who Am I register
+   *   
+   *   Contains the 6-bit I C address of the MPU-60X0.
+       The Power-On-Reset value of Bit6:Bit1 is 110 100.
+
+       9/16/2020 Some units are returning 0x72 instead of 0x68
+   * 
+   */
+  if(state == EXPECTED_WHO_AM_I_RESPONSE || state == 0x72){
+    Serial.print("I2C communication success, who am i returned, 0x");
+    Serial.print(state, HEX);
+    Serial.println("\n");
     return true;
   }
   else{
-    Serial.print("error, testCommunication, expected: 0x68, regVal: ");
+    Serial.print("error, testCommunication, state: 0x");
     Serial.println(state,HEX);
     return false;
   }
@@ -72,7 +89,7 @@ uint8_t readByte(uint8_t devAddr, uint8_t regAddr)
 int main(void)
 {
   init();
-  Serial.begin(38400);
+  Serial.begin(9600);
   Wire.begin();                 // Initiate Wire library, join I2C bus as master
   delay(100);
 

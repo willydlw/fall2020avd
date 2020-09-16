@@ -45,7 +45,7 @@ Lesson 1 contains one source code file <br>
 
 2. **MPU-6050 I2C Interface**
 
-<p>The [datasheet](../datasheet/MPU-6000-Datasheet.pdf), section 9.2, provides information about the I2C interface.</p>
+The [datasheet](../datasheet/MPU-6000-Datasheet.pdf), section 9.2, provides information about the I2C interface.</p>
 
 - MPU-6050 always operates as a slave device to system processor
 - Slave address b110100X
@@ -97,13 +97,20 @@ int main(void)
   return 0;
 }
 ```
+<br><br>
+
 4. **testConnection()**
 <p>The Who_Am_I register is used to verify device identity. The register is read only, containing the upper six bits of the 7-bit I2C address.</p>
 
 - Bits 7 and 0 are hard-coded to 0
 - Bits 6:1 110 100
 
-<p>Querying this register and comparing the byte value read confirms that the Arduino and MPU-6050 are able to communicate via I2C.</p>
+<p>Querying this register and comparing the byte value read confirms that the Arduino and MPU-6050 are able to communicate via I2C. Note that the value of the AD0 pin is not reflected in this register</p>
+
+>Note: Some units return 0x72 instead of the expected 0x68. Run the code as is. If your unit returns 0x72, you still have managed to connect to the board via I2C, else you would not be able to read either the 0x68 or 0x72 from the register. (Date: 9/16/2020)
+<br><br>
+
+![Who Am I register](./images/whoami.png "who am i register")<br><br>
 
 ```
 bool testCommunication(uint8_t devAddr)
@@ -120,10 +127,14 @@ bool testCommunication(uint8_t devAddr)
     return false;
   }
 }
-``` 
+```
+
+</br></br>
 
 5. **readByte()**
+
 <p>The readByte function illustrates the required sequence of I2C function calls to read the contents of an MPU-6050 register.</p>
+
 
 ```
 uint8_t readByte(uint8_t devAddr, uint8_t regAddr)
@@ -139,6 +150,7 @@ uint8_t readByte(uint8_t devAddr, uint8_t regAddr)
 }
 ```
 
+</br></br>
 
 6. **reportPowerState()**
 <p>This function queries the MPU 6050 power management 1 register. Page 8, of the register map, indicates the reset value is 0x00 for all registers other than<br>
