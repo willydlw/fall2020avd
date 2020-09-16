@@ -39,7 +39,7 @@ bool testCommunication(uint8_t devAddr)
 {
   uint8_t state;
   state = readByte(devAddr, MPU6050_RA_WHO_AM_I);
-  if(state == 0x68){
+  if(state == 0x72){
     Serial.println("success, testCommunication\n");
     return true;
   }

@@ -19,7 +19,7 @@ bool testCommunication(uint8_t devAddr)
 {
   uint8_t state;
   state = readByte(devAddr, MPU6050_RA_WHO_AM_I);
-  if(state == 0x68){
+  if(state == 0x72){
     Serial.println("success, testCommunication\n");
     return true;
   }
@@ -39,12 +39,14 @@ void reportPowerState(uint8_t devAddr)
   Serial.print("Bit 7, Device Reset: ");
   Serial.println(state >> 8, HEX);
   Serial.print("Bit 6, Sleep:        ");
+  // 0x40  0100 0000
   Serial.println( (state & 0x40) >> 6, HEX);
   if( (state & 0x40) >> 6 == 1)
   {
     Serial.println("\t** Device is in sleep mode **\n");
   }
   Serial.print("Bit 5, Cycle:        ");
+  // 0x 20 0010 0000
   Serial.println( (state & 0x20) >> 5, HEX);
   Serial.print("Bit 3, Temp_Dis      ");
   Serial.println( (state & 0x08) >> 3, HEX);
