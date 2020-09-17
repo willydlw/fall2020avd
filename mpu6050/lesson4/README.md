@@ -45,7 +45,13 @@ accel data (LSB) / accel sensitivity (LSB/g) = accel data (g)
 The formula for converting the temperature measurement, section 4.18, [register map](../datasheet/MPU-6000-Register-Map.pdf).
 
 Temperature in degrees C = (temperature register value / 340) + 36.53
+</br></br>
 
+## Summary - Understanding Raw Values
+</br>
+
+![scaling](./images/Control-Theory-Slides.021.jpeg) [1](https://mjwhite8119.github.io/Robots/assets/images/Control-Theory-Slides.021.jpeg)
+</br></br>
 
 ## Student Exercise
 
