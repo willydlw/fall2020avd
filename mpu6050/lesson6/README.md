@@ -110,8 +110,8 @@ delay(100);                    // need to wait for PLL to be established?
 
 **Accelerometer Offset Registers**
 
-1. Initial values contain the OTP values of the Accel factory trim. Therefore at bootup there will be a non-zero value in these registers. Users will need to first read the register and apply the biases to that value.<br>
-2. Format is in +-8G in which 1mg = 4096 LSB <br>
+1. Initial values contain the OTP values of the Accel factory trim. Therefore at bootup there will be a non-zero value in these registers. Users will need to first read the register and apply the biases to that value.</br>
+2. Format is in +-8G in which 1mg = 4096 LSB </br>
 3. Bit 0 on the low byte of each axis is a reserved bit and needs to be preserved.
 </br></br>
 
