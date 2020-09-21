@@ -53,7 +53,7 @@ def animate(i):
 if __name__ == '__main__':
 
     portName = "/dev/ttyACM0"
-    ser = serialConnect(portName,115200)
+    ser = serialConnect(portName,38400)
     sleep(2)                                        # give Arduino time to reset
 
     # flush input buffer, discarding all contents

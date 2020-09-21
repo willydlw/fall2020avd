@@ -9,11 +9,11 @@
  */
 
 
+#include <Arduino.h>
 #include <Wire.h>
 
 const int MPUADDRESS = 0x68;
-const unsigned long SAMPLE_INTERVAL = 20;     // milliseconds
-unsigned long startTime;
+
 
 
 void setup() {
@@ -22,8 +22,8 @@ void setup() {
   Wire.write(0x6B);               // PWR_MGMT_1 register
   Wire.write(0);                  // MPU-6050 to start mode
   Wire.endTransmission(true);
-  Serial.begin(115200);
-  startTime = millis();
+  Serial.begin(38400);
+  delay(100);
 }
 
 void readAccel(int16_t& x, int16_t& y, int16_t& z)
@@ -47,13 +47,28 @@ void sendData(int16_t x, int16_t y, int16_t z)
   Serial.println(z);
 }
 
-void loop() {
+int main(void)
+{
+  const unsigned long SAMPLE_INTERVAL = 20;     // milliseconds
+  
+  int16_t x, y, z;
+  unsigned long startTime;
 
-  static int16_t x, y, z;
-  if( (millis() - startTime) >= SAMPLE_INTERVAL)
+  init();
+  setup();
+
+  startTime = millis();
+  
+  while(1)
   {
-    readAccel(x, y, z);
-    sendData(x, y, z);
-    startTime = millis();
+    if( (millis() - startTime) >= SAMPLE_INTERVAL)
+    {
+      readAccel(x, y, z);
+      sendData(x, y, z);
+      startTime = millis();
+    }
   }
+
+  return 0;
+  
 }
