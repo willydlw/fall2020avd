@@ -67,7 +67,7 @@ The discrete-time signal: y[n] = A sin(2 &pi; f n Ts + &phi;)= A sin(&omega; n T
 Let's create a sine wave with a frequency of 1 Hz and phase angle of zero.
 - f is 1 Hz
 - &omega; = 2&pi;f 
-- &Ts is the time interval between samples, aka the sample period
+- Ts is the time interval between samples, aka the sample period
 - n is the sample number
 
 Our signal frequency f is 1 Hz. The time period for one cycle T = 1/f = 1/(1 Hz) = 1 sec.

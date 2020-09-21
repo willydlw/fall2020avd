@@ -166,6 +166,12 @@ Debugging python to Arduino float transmission: https://youtu.be/pvRMq7sQlGQ
 
 <br><br>
 
+## Send Signal
+
+Create Arduino program that generates the periodic signal. Program calculates the sample frequency and sample time period, based on the signal frequency and the number of samples per cycle.
+
+Video tutorial: https://youtu.be/2xv4g6vTim8
+
 ## Summary
 
 We have broken down the homework problem into sub-problems and solved two major sub-problems. Next, write separate programs to implement Arduino generating and transmitting the signal data to python. Write the corresponding python program to receive the data. Writing these programs using functions will make integration into the final working program easier in the long run. Use functions and avoid global variables.
