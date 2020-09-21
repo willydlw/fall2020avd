@@ -59,3 +59,9 @@ Source code: [lesson5.py](lesson5.py)
 
 
 **API documentation: matplotlib.pyplot.stem https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.stem.html#matplotlib.pyplot.stem**
+
+</br></br>
+
+### Lesson 6 - Sampling
+
+Illustrates how sampling frequency affects representation of continuous time signal.
