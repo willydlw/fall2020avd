@@ -5,6 +5,7 @@ import numpy as np
 from time import sleep 
 from matplotlib import pyplot as plt
 from matplotlib import animation
+from pprint import pprint
 
 
 def serialConnect(portName, baudRate):
@@ -34,8 +35,8 @@ def animate(i):
         pass
 
     arduinoString = ser.readline().decode("utf-8")
-    dataArray = arduinoString.split(',')
-
+    dataArray = arduinoString.strip().split(',')
+    
     # add scaled data points to end of array
     accelx.append(float(dataArray[0])/(32767/2))    
     accely.append(float(dataArray[1])/(32767/2))    

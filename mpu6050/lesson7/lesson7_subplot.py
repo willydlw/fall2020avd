@@ -33,7 +33,8 @@ def animate(i):
         pass
 
     arduinoString = ser.readline().decode("utf-8")
-    dataArray = arduinoString.split(',')
+    # remove \r\n from end of string, then use comma delimiter to split
+    dataArray = arduinoString.strip().split(',')
 
     accelx.append(float(dataArray[0])/(32767/2))    
     accely.append(float(dataArray[1])/(32767/2))    
