@@ -1,6 +1,6 @@
 # Lesson 9 - Tilt Sensing Using a 3-axis Accelerometer
 
-This lesson uses simple math relationships to approximate the x-axis and y-axis tilt angles from a three axis accelerometer. These approximations are reasonable for tilt angles less than 45 degrees, in a system with no vibration. Acceleration, due to vibration, is incorrectly interpreted as tilt. This approach should not be used on moving systems. 
+This lesson uses simple math relationships to approximate the x-axis and y-axis tilt angles from a three axis accelerometer. These approximations are reasonable for tilt angles less than 45 degrees, in a system with no vibration. Acceleration, due to vibration, is incorrectly interpreted as tilt. We will see how to filter out accelerometer vibration in lesson 11.
 
 
 ## What does an accelerometer measure?
