@@ -17,17 +17,17 @@ https://www.researchgate.net/profile/Hristijan_Gjoreski/publication/259340414/fi
 3. The orientation angles are dependent on the order in which the rotations are applied. 
 
 There are six sequences for any physical rotation:
-1. R-xyz
-2. R-xzy
-3. R-zxy
-4. R-zyx
-5. R-yxz
-6. R-yzx 
-Ti
+
+- R-xyz
+- R-xzy
+- R-zxy
+- R-zyx
+- R-yxz
+- R-yzx
+
 Different rotation sequences may result in the same orientation and produce different pitch andd roll angles. For consistency, we define a default sequence. The most common order is the aerospace sequence of yaw, pitch and roll rotation.
 
-4. Accelerometer sensors are insensitive to rotation about the earth's gravitational field vector. The equations for the roll and pitch angles therefore have mathematical instabilities when rotation axes happen to become aligned with gravity and point upwards or downwards. 
-
+4. Accelerometer sensors are insensitive to rotation about the earth's gravitational field vector. The equations for the roll and pitch angles therefore have mathematical instabilities when rotation axes happen to become aligned with gravity and point upwards or downwards.</br></br>
 
 ## Coordinate System Definition
 
