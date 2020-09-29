@@ -9,9 +9,7 @@ This lesson uses simple math relationships to approximate the x-axis and y-axis 
 
 2. In the absence of linear acceleration, the accelerometer output is a measurement of the rotated gravitational field vector and can be used to determine the accelerometer pitch and roll orientation angles.
 
-![Accelerometer Angles](./images/Euler-angles-pitch-roll-yaw.png "Accelerometer Angles")
-
-https://www.researchgate.net/profile/Hristijan_Gjoreski/publication/259340414/figure/fig3/AS:297261767643138@1447884136270/A-rotation-represented-by-Euler-angles-pitch-roll-yaw-with-ps-ph-th-60-30.png 
+![Accelerometer Angles](./images/Euler-angles-pitch-roll-yaw.png "Accelerometer Angles") [1](https://www.researchgate.net/profile/Hristijan_Gjoreski/publication/259340414/figure/fig3/AS:297261767643138@1447884136270/A-rotation-represented-by-Euler-angles-pitch-roll-yaw-with-ps-ph-th-60-30.png) 
 
 
 3. The orientation angles are dependent on the order in which the rotations are applied. 
