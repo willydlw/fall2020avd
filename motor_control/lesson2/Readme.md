@@ -110,5 +110,5 @@ void stopMotors(void)
 
 ### lesson2 sketch
 
-[lesson2.ino] (./lesson2/lesson2.ino) tests these functions by initializing the motors, spinning them forward for a few seconds, then backward, and stopping.
+[lesson2.ino](./lesson2/lesson2.ino) tests these functions by initializing the motors, spinning them forward for a few seconds, then backward, and stopping.
 
