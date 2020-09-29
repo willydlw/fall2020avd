@@ -1,6 +1,6 @@
 # Lesson 2 - Spinning the Motors
 
-The robot's dual motor driver IC is the TB6612FNG. It uses two input signals, IN1 and IN2 to choose one of four modes: CW, CCW, short brake, and stop. See the TB6612FNG.pdf document in the datasheets directory for the driver's specifications.
+The robot's dual motor driver IC is the TB6612FNG. It uses two input signals, IN1 and IN2 to choose one of four modes: CW, CCW, short brake, and stop. See the [TB6612FNG.pdf](./datasheets/TB6612FNG.pdf) document in the datasheets directory for the driver's specifications.
 
 The table below attempts to reconcile the pin names found in the data sheet, on the PCB where the motor driver is connected to its headers, and on the PCB where the breakout header connections to the Arduino Nano are found. 
 
