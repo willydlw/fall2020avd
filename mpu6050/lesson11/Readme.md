@@ -1,12 +1,12 @@
 # Lesson 11 - The Complementary Filter
 
-We have learned that accelerometer is a good indicator of orientation in static conditions and the gyroscope is a good indicator of tilt in dynamic conditions. 
+We have learned that accelerometer is a good indicator of orientation in static conditions and the gyroscope is a good indicator of tilt in dynamic conditions.
 
 The accelerometer measures all forces acting on the robot. The gravity vector provides pitch and roll orientation, but other forces acting on the sensor create disturbances in this data. The accelerometer angle is noisy in the short term. Applying a low pass filter averages out the noise due to movement. 
 
 The gyroscope provides accurate data over a short time interval and is less susceptible to external forces. Over time, the integration estimate causes drift, not returning to zero when a system is back to its original position. Drift is considered a dc error, or slow changing value that can be removed by a high pass filter.
 
-The complementary filter allows us to combine the accelerometer and gyroscope data into a more reliable estimate of pitch and roll. It favors the gyroscope input over the short term and the accelerometer estimate over the long term. 
+The complementary filter allows us to combine the accelerometer and gyroscope data into a more reliable estimate of pitch and roll. It favors the gyroscope input over the short term and the accelerometer estimate over the long term.
 
 ## Complementary Filter 
 
@@ -41,22 +41,8 @@ x is the sensor input data<br>
 y is the filtered output
 
 Conclusion: when the gyroscope is removed from the complementary filter equation, we see the filter acts as a low-pass filter for the accelerometer data.
-<br>
-<br>
-
-#### Discrete Z-transform
-
-This low pass filter form can also be written as a z-Transform to derive the transfer function and time constant.
-
-&theta;[n] = &alpha; * (&theta;[n-1] ) + (1-&alpha;) (&theta;<sub>accel</sub> [n])
-
-&theta;[z] = &alpha; z<sup>-1</sup> * (&theta;[z] ) + (1-&alpha;) (&theta;<sub>accel</sub> [z])
-
-&theta;[z] - &alpha; z<sup>-1</sup> * (&theta;[z] ) =  (1-&alpha;) (&theta;<sub>accel</sub> [z])
-
-H[z] = &theta;[z] / &theta;<sub>accel</sub> [z] = (1-&alpha;) / (1-&alpha; z<sup>-1</sup>)
-
-<br>
+</br>
+</br>
 
 **Time Constant**
 
@@ -65,9 +51,8 @@ The time constant &Tau; approximately equals (&alpha; * &delta;t)/(1-&alpha;) wh
 How does the time constant relate to noise?
 
 Example: Assume the sampling frequency is 100 Hz, &delta;t = 10 ms and &alpha; = 0.8, the time constant is 40 ms. Noise shorter than 40 ms duration will be removed.
-<br>
-<br>
-
+</br>
+</br>
 
 ## How does the Complementary filter act as a High-pass Filter?
 
