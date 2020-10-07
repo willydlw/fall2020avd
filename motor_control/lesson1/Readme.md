@@ -1,6 +1,6 @@
 # Lesson 1 - Elegoo Self-Balancing Robot, Spinning the Motors
 
-The robot's dual motor driver IC is the TB6612FNG. It uses two input signals, IN1 and IN2 to choose one of four modes: CW, CCW, short brake, and stop. See the [TB6612FNG.pdf](./datasheets/TB6612FNG.pdf) document and the usage [Application note](./datasheets/TB6612FNG_application_note.pdf) in the datasheets directory for the driver's specifications.</br></br>
+The robot's dual motor driver IC is the TB6612FNG. It uses two input signals, IN1 and IN2 to choose one of four modes: CW, CCW, short brake, and stop. See the [TB6612FNG.pdf](../datasheets/TB6612FNG.pdf) document and the usage [Application note](../datasheets/TB6612FNG_application_note.pdf) in the datasheets directory for the driver's specifications.</br></br>
 
 ## Motor Driver Block Diagram
 
