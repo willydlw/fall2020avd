@@ -1,185 +1,180 @@
-# Lesson 1 - Introduction to PID Control 
+# Lesson 1 - Elegoo Self-Balancing Robot, Spinning the Motors
 
-Our self-balancing robot needs a control system to keep it balanced while moving around in the world. The Proportional Integral Derivative (PID) controller will be used to control the speed and direction of the robot's motors, based on input from the robot's accelerometer and gyroscope. 
+The robot's dual motor driver IC is the TB6612FNG. It uses two input signals, IN1 and IN2 to choose one of four modes: CW, CCW, short brake, and stop. See the [TB6612FNG.pdf](./datasheets/TB6612FNG.pdf) document and the usage [Application note](./datasheets/TB6612FNG_application_note_en_20160916.pdf) in the datasheets directory for the driver's specifications.</br></br>
 
-This unit introduces the concepts of open loop versus closed loop control and provides examples to illustrate how the PID control system parameters Kp, Kd, and Ki affect the system.
+## Motor Driver Block Diagram
 
-## Open Loop Control
+The block diagram provides the pinout and a structural overview of the integrated circuit's design. The control logic blocks read the state of the input pins PWMA, AIN2, AIN1, BIN1, BIN2, and PWMB to control the switching of the H-bridge switching circuits, H-SW A and H-SW B. 
 
-The simplest form of control is an open loop system. Suppose we want our robot to travel from point A to point B. Based on the distance between the two points, a command is issued to drive at some speed for a specified amount of time. 
+This is a dual motor driver, meaning it can separately control two DC motors. This is why the circuity is labeled A, B. One motor will be connected to and controlled by the A driver, while the other motor is wired to the B side.</br></br>
 
-The input, distance to travel, is sent to the controller that calculates the required speed for a specified time duration. That is converted to an actuating signal, such as a voltage, sent to the motors (plant). 
+![TB6612FNG Block Diagram](./images/block_diagram.png "TB6612FNG Block Diagram")
+</br></br>
 
-As shown in the image below, an open loop system provides no feedback. Without feedback, there is no way to know if the motors reached the target velocity. Mechanical imperfections, friction, travel surface, and other factors will likely keep the motors from maintaining the constant velocity ordered by the controller. The robot will likely not find itself at the desired location at the end of time interval. 
+### H-Bridge
 
-![open loop control](./images/openloop.jpeg "open loop control") [1](https://3.bp.blogspot.com/-_qLN-F4tdt0/XHvvBmm-giI/AAAAAAAAAoc/-5jeGJTqQMgMkiS6deb39jIPXUAq3fIEgCLcBGAs/s1600/Capture2.PNG)
+An H-Bridge is an electronic circuit that switches the polarity of a voltage applied to a load. These circuits are used to allow DC motors to run forward or backward. 
 
+The term *H bridge* is derived from the graphical representation of the circuit. An H bridge is built with four switches, laid out in an H pattern. When the switches S1 and S4 are closed (S2 and S3 open) a positive voltage will be applied across the motor. By opening switches S1 and S4, closing S2 and S3, the voltage is reversed, allowing reverse operation of the motor. </br></br>
 
-## Closed Loop Control
+![H-Bridge](./images/h_bridge.png "H-bridge") [1](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/H_bridge.svg/465px-H_bridge.svg.png)
 
-The feedback of a closed loop controller allows us to monitor the system state and adjust the control signal when the output does not match the goal state.
+</br></br>
 
-![closed loop control](./images/closedloop.jpeg "closed loop control") [2](https://www.tutorialspoint.com/control_systems/images/closed_loop.jpg) 
+#### H-Bridge Operation
 
+Generally, the H-bridge is used to reverse the polarity/direction of the motor, but can also be used to "brake" the motor, where the motor comes to a sudden stop, as the motor's terminals are shorted. It can also let the motor coast to a stop, as the motor is effectively disconnected from the circuit. The table below shows the switch state of S1-S4 for these operations. A value of 1 means the switch is closed, while 0 means the switch is open.
 
-## PID (Proportional, Integral, Derivative) Control
+| S1 | S2 | S3 | S4 | Result |
+| --- | --- | --- | --- | --- |
+| 1 | 0 | 0 | 1 | Motor moves right (CW)|
+| 0 | 1 | 1 | 0 | Motor moves left (CCW)|
+| 0 | 0 | 0 | 0 | Motor coasts|
+| 1 | 0 | 0 | 0 | Motor coasts |
+| 0 | 1 | 0 | 0 | Motor coasts |
+| 0 | 0 | 1 | 0 | Motor coasts |
+| 0 | 0 | 0 | 1 | Motor coasts |
+| 0 | 1 | 0 | 1 | Motor brakes|
+| 1 | 0 | 1 | 0 | Motor brakes|
+| x | x | 1 | 1 | Short circuit|
+| 1 | 1 | x | x | Short circuit|
 
-The PID controller is the classic example of closed loop control. A PID control loop as a process variable which is the system parameter that needs to be controlled. The **reference value** or **set point** is the value we want the system to maintain with regards to te system output. The difference between the reference value and the system output is known as the **error**.
+[2](https://en.wikipedia.org/wiki/H-bridge#:~:text=An%20H%2Dbridge%20is%20an,to%20run%20forwards%20or%20backwards.)
 
+</br></br>
 
-![PID Control](./images/pid.jpeg "PID Control") [3](https://www.thorlabs.com/images/TabImages/PID2.jpg)
+### Controlling Motoer Operation with the TB6612FNG 
 
+The data sheet's H-SW control function table provides the pin state values for the various motor modes.</br></br> 
 
-The proportional (P) term refers to the error between the sensor output and the reference, the present state error.
+![IC Driver Control](./images/h-swcontrolfunction.png "ic driver control")
+</br></br>
 
-The integral (I) term refers to the accumulated error for the total system runtime, the past state error.
+The first row tells us that when input pins IN1, IN2, STBY are set high, the motor outputs OUT1, OUT2 are both set low, short brake mode. The H-SW Operation Description images show the H-bridge switch states. Short braking essentially short-circuits the motor terminals, driving them to the same low level. The braking energy of the motor will be shorted through the power or ground rail, essentially turning the motor into an electric generator. The brake mode senses the motor is moving and applies power to keep the motor in place. Think of it like suddenly applying the brakes on your car. It is a sudden stop, compared to coasting to a stop.
+</br></br>
 
-The derivative (D) term refers to the rate of change of the error within the PID control loop and is used to improve the control loop performance. This term tries to predict future error. 
+The second row tells us that with IN1 low, IN2 high, PWM high, STBY high, the motor will turn counter-clockwise. The polarity of the motor outputs is OUT1 low, OUT2 high.
 
-In practice, the D-term is often not used because it may sometimes amplify noise. Most controllers are PI type controllers.
+To spin the motor clockwise, set IN1 high, IN2 low, PWN high, STBY high. The motor output OUT1 is high with OUT2 low, the opposite polarity of the CCW mode.
 
-The PID control loop requires **tuning** to optimize system performance. The tuning parameters are the **K** constants of the system: Kp, Ki, and Kd.
+The standby mode is a power saving mode. The STBY input is set low. The motor outputs are in a high impedance state and all transistors in the H-bridge are turned off.
 
-![PID Equation](./images/pidformula.png "PID Equation") [4](https://trinirobotics.com/wp-content/uploads/2019/03/pic-controller.png) 
+Stop mode is entered when the STBY is set high, PWM high, IN1 low, IN2 low. The motor outputs are in a high impedance state.
 
+</br></br>
 
-## Proportional Control
+### Pin Connections to Elegoo PCB
 
-A simple mathematial relationship for the control signal u(t) in terms of the error e(t) is that the magnitude of the control signal is proportional to the error.
+The table below maps the Elegoo PCB pin names to the motor driver IC pin names. The Elegoo pin names are stenciled on the PCB where the motor driver is connected to its headers, and on the PCB where the breakout header connections to the Arduino Nano are found.
 
-u(t) = K<sub>p</sub> e(t)
+Example: The TB6612FNG data sheet shows pin name IN1, which the Elegoo PCB calls AIN1. AIN1 is connected to Arduino pin 7.</br></br>
 
-The value K<sub>p</sub> is referred to as the **gain** term. This is a constant that determines how large the control signal will be for a particular error value. The K<sub>p</sub> is selected based on a system analysis or through trial and error. Larger proportional gain results in larger changes in response to error and affects the speed at which the controller can respond to changes in the system. A high proportional gain can cause a circuit to respond quickly, but too high a value can cause oscillations about the set point value. Too low a Kp value and the circuit cannot efficiently respond to changes in the system.
+**Pin Numbers**
 
+| TB6612FNG | Elegoo PCB  | Arduino Nano |
+| --- | --- | --- |
+| IN1 | AIN1 | 7 |
+| IN2 | BIN1 | 12 |
+| PWMA | PWMA | 5 |
+| PWMB | PWMB | 6 |
+| STBY | STBY | 8 |
 
-## Proportional Control Example
+</br></br>
 
-The program kp.py provides an example of a proportional control system for velocity control. The program starts with an initial velocity different from the desired set point velocity. Run the program for various values of K<sub>p</sub> to see the effects on the rise time, overshoot, and oscillation.
+## Arduino Low-level motor control
 
-The initial velocity is 0.0 and the desired set point velocity is 1.0. Acceleration is the signal controlled by the proportional controller. The error between measured velocity (system output) and the set point (desired velocity) is multiplied by K<sub>p</sub> to change the acceleration. 
+The next step is writing an Arduino sketch to implement simple motor functions such as forward, backward, and stop.</br></br>
 
-The program's control loop is shown below. The presentVelocity represents the control system output. The acceleration is the control system input, the actuation signal. The error is calculated and the acceleration signal is updated, based on the error and the proportional control constant K<sub>p</sub>. The acceleration signal has a maximum limit to simulate that real hardware have physical limits.
+### Pin Definitions
 
+Start by defining the Arduino pin connections to the motor driver. The code below uses the Elegoo PCB names: AIN1, BIN1, STPY. The left and right description is added to the PWM pin names, but that is subjective dependent on the robot's orientation.
+
+```cpp
+#define AIN1         7    // direction left motor
+#define PWMA_LEFT    5    // pulse width modulation
+
+#define BIN1        12    // direction right motor
+#define PWMB_RIGHT   6    // pulse width modulation
+
+#define STBY         8    // standby mode  
 ```
-while True:
-    presentVelocity = presentVelocity + acceleration * dt
-    error = desiredVelocity - presentVelocity
-        
-    if error > 0:   # present velocity is too slow, less than desiredVelocity
-        acceleration = min([ kp * error, accelLimit])
-    elif error < 0: # present velocity too fast, decrease it
-        acceleration = max([kp*error, -accelLimit])
-    else: # error == 0, at desired speed
-        acceleration = 0 
+</br></br>
+The Nano pinout is shown below. Note that Arduino pins 5 and 6 are capable of generating an pwm signal.</br></br>
+
+![Nano pinout](./images/Arduino-Nano-Pinout-1.png "Nano pinout")</br></br>
+
+### Initialize motors
+
+The Arduino sketch writes data to the above pins, defining them as Arduino outputs. The initialization function sets the pin mode. Technically, you do not need to call pinMode() to set the pwm pin as an output before calling analogWrite().
+
+Note that pins 5 and 6 produce a 980 Hz pwm frequency, compared to the 490 Hz generated by the pwm pins. [3](https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/)
+
+```cpp
+void initMotors( void)
+{
+  pinMode(AIN1, OUTPUT);
+  pinMode(BIN1, OUTPUT);
+  pinMode(PWMA_LEFT, OUTPUT);
+  pinMode(PWMB_RIGHT, OUTPUT);
+  pinMode(STBY, OUTPUT);
+  stopMotors();
+}
 ```
+</br></br>
 
-The first plot below shows the response for Kp = 5. There is overshoot and then the system slowly settles to the desired velocity. Note that this is a simulated example and a real world system will contain an offset bias from accumulated error. 
+### Drive Forward
 
-![Kp 5](./images/kp5.png "Kp overshoot, settles down")
+Driving forward requires both motors to spin in the same direction. Forward depends on how the motors are mounted. On the test robot, setting the direction pins on both motors to low produced a counter clockwise rotation, propelling the robot forward. Forward is defined as the direction the ultrasonic range finder faces.
 
+The motor speed is controlled by the voltage level produced by a pulse width modulation signal. Note that there is no digitalwrite to the STBY pin in either the driveFoward or driveBackward functions. This assumes the STBY has already been set to high prior to calling these functions. You may want to structure your code differently. </br>
 
-If we start increasing Kp by 1, the system becomes increasingly unstable.For Kp = 6, the overshoot is larger and the systems takes longer to settle to a steady state.
-
-![Kp 6](./images/kp6.png "Kp ringing, but eventually settles")
-
-
-At Kp = 7, the system begins to oscillate
-
-![Kp 7](./images/kp7.png "Kp causes increasing oscillation")
-
-The next plot shows the response for Kp = 10. The maximum overshoot is 15 times the desired velocity and the system exhibits a regular periodic oscillation.
-
-![Kp 10](./images/kp10.png "Kp causes large overshoot, ringing")
-
-
-## Derivative Control
-
-Derivative control attempts to reduce the overshoot and ringing potential from proportional and integral control. It uses the derivative of the error signal and multiplies it by K<sub>d</sub>. Derivative control will slow the control system response. This partially compensates for the overshoot and damps out oscillations caused by integral and proportional control. High K<sub>d</sub> gain values slow the response, leaving the system susceptible to noise and frequency oscillation. 
-
-
-## Proportional Derivative Control Example
-
-The program kpkd.py provides adds a derivative control parameter K<sub>d</sub> to the proportional control program example. The simulated control loop code is shown below.
-
-The rate of change in the error is calculated, in addition to the error. The controller input signal, acceleration, is dependent on both the proportional magnitude control the rate of change derivative term.
-
-
-```
-while True:
-    
-    presentVelocity = presentVelocity + acceleration * dt
-    error = desiredVelocity - presentVelocity
-    derrdt = (error - prevError) / dt 
-    acceleration = kp * error + kd * derrdt
-    if abs(acceleration) > accelLimit:
-        if acceleration > 0:
-            acceleration = accelLimit 
-        else:
-            acceleration = -accelLimit
-
-    prevError = error 
-```
-
-Run the program for various values of K<sub>p</sub> to see the effects on the rise time, overshoot, and oscillation.
-
-The plot below shows the control system response for Kp = 5, Kd = 0.025. For the proportional only controller, Kp = 5, did not cause the system to oscillate. Setting the parameter Kd to 0.025 has not decreased overshoot magnitude and caused some early ringing in the system before it settled to the set point value.
-
-![PD Control System](./images/kpkd1.png "Kp stable, Kd ringing before settling")
-
-
-Increasing Kd causes the system to become unstable, as shown below.
-
-![PD Control System](./images/kpkd2.png "Kp stable, Kd ringing")
-
-
-Adding a derivative control term to this example made the system response worse than just the P controller. Note that this is just a simulation example and that there are systems where derivative control helps improve performance.
-
-
-## Integral Control
-
-Integral control is proportional to both the magnitude of the error and the duration of the error. It is highly effective at increasing the response time and eliminating the steady-state error associated with purely proportional control. The integral control sums over the previous error, which has not yet been corrected, and multiplies the error by the K<sub>i</sub> constant. High gain values can cause significant overshoot of the set point value, leading to oscillation and instability. If the constant is too low, then the system will be significantly slower in responding to system changes.
-
-## Proportional Integral Derivative Control Example
-
-Integral control may be added to the previous program by adding a Ki parameter and the following code to the control loop.
-
-```
-errorSum = errorSum + error * dt 
-acceleration = kp * error + ki * errorSum + kd * derrdt 
+```cpp
+void driveForward(unsigned char speed)
+{
+  digitalWrite(AIN1, 0);
+  digitalWrite(BIN1, 0);
+  analogWrite(PWMA_LEFT, speed);
+  analogWrite(PWMB_RIGHT, speed);
+}
 ```
 
-## Gain Parameter Effect
+</br></br>
 
-The chart below shows the effects of increasing any one of the gain parameters independently.
+### Drive Backward
 
-| Closed Loop Response | Rise Time | Overshoot | Settling Time | Steady-State Error | Stability |
-| --- | --- | --- | --- | --- | --- |
-| Increasing Kp | Decrease | Increase | Small Change | Decrease | Degrade |
-| Increasing Ki | Decrease | Increase | Increase | Large Decrease | Degrade |
-| Increasing Kd | Minor Decrease | Minor Decrease | Minor Decrease | No effect | Improve (for small Kd) |
+Driving backward also requires both motors to spin in the same direction. On the test robot, setting the direction pins on both motors to high produced a clockwise rotation, propelling the robot backward. 
 
+The motor speed is controlled by the voltage level produced by a pulse width modulation signal.
 
-## Tuning
+```cpp
+void driveBackward(unsigned char speed)
+{
+  digitalWrite(AIN1, 1);
+  digitalWrite(BIN1, 1);
+  analogWrite(PWMA_LEFT, speed);
+  analogWrite(PWMB_RIGHT, speed);
+}
+```
 
-In general, a PID controller will typically overshoot the set point value slightly and then quickly damp out to reach the set point value.
+</br></br>
 
-### Manual Tuning
+### Stop
 
-This is the simplest method, with the system actively turned on to observe its behavior. The integral and derivative gains are set to zero. Increase the proportional gain until you observe oscillation in the output. Set the proportional gain to roughly half that value. Example: system osciallates at Kp = 90, set Kp to about 45. 
+The control function chart shows that both direction pins are set low and the standby pin is set high. The Arduino function sets the pwm voltage to zero
 
-After the proportional gain is set, increase the integral gain until any offset is corrected for on a time scale appropriate to the system. If the gain is too large, you will observe significant overshoot of the set point value and instability in the system. 
+```cpp
+void stopMotors(void)
+{
+  digitalWrite(AIN1, LOW);
+  digitalWrite(BIN1, LOW);
+  digitalWrite(STBY, HIGH);
+  analogWrite(PWMA_LEFT, 0);
+  analogWrite(PWMB_RIGHT, 0);
+}
+```
 
-The derivative gain is set, after the integral gain is determined. The purpose of the derivative gain is to reduce overshoot and damp the system quickly to the set point value. It the derivative gain is too large, the overshoot will be large, as the system will be slow to respond.
+</br></br>
 
-The Ziegler-Nichols method for PID tuning offers some guidance for the PID values. Set the derivative and integral gains to zero. Increase the proportional gain until the system begins to oscillate. This gain level where the system oscillates is called K<sub>u</sub>. The oscillation will have a period of P<sub>u</sub>. Gains are then set as shown in the table below.
+### lesson1 sketch
 
-| Control Type | K<sub>p</sub> | K<sub>i</sub> | K<sub>d</sub> |
-| --- | --- | --- | --- |
-| P | 0.50 K<sub>u</sub> | - | - |
-| PI | 0.45 K<sub>u</sub> | 1.2 K<sub>p</sub> / P<sub>u</sub> | - |
-| PID | 0.60 K<sub>u</sub> | 2 K<sub>p</sub> / P<sub>u</sub> | K<sub>p</sub> P<sub>u</sub>  / 8 |
-
-
-## Next Steps 
-
-The next lesson explores how to implement a PID control system to balance our robot.
+[lesson1.ino](./lesson1/lesson1.ino) tests these functions by initializing the motors, spinning them forward for a few seconds, then backward, and stopping.
