@@ -263,9 +263,13 @@ volatile unsigned char count = 0;   // same as byte type
 
 void mysetup()
 {
+  pinMode(12, INPUT_PULLUP);
   cli();
-  PCICR |= 0b00000001;    // Enables Port B Pin Change Interrupts
-  PCMSK0 |= 0b0001000;    // set PCINT4, Arduino D12, Port B, pin PB4
+  // Enables Port B Pin Change Interrupts
+  PCICR |= 0b00000001;    // alternative code: PCICR |= (1 << PCIE0); 
+
+  // set PCINT4, Arduino D12, Port B, pin PB4
+  PCMSK0 |= 0b0001000;   // alternative code: PCMSK0 |= (1 <<PCINT4); 
   sei();
  
   Serial.begin(9600);
@@ -282,7 +286,7 @@ int main(void)
     if( (millis() - startTime) >= SAMPLE_TIME)
     {
       startTime = millis();
-      tempCount = count;
+      tempCount = count;          // read volatile variable and store in another variable
       Serial.print("count: ");
       Serial.println(tempCount);
     }
