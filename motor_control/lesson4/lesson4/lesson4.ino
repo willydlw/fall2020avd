@@ -7,8 +7,6 @@ const unsigned long ENCODER_SAMPLE_INTERVAL = 500UL;    // units, milliseconds
 
 // Global Variables
 volatile unsigned long leftEncoderCount = 0;
-volatile unsigned long rightEncoderCount = 0;
-
 
 
 /* Interrupt Service Routine
@@ -19,26 +17,17 @@ void leftEncoderISR(void)
   leftEncoderCount++;
 }
 
-/* Interrupt Service Routine
- *  updates left encoder count
- */
-void rightEncoderISR(void)
-{
-  rightEncoderCount++;
-}
 
 void mysetup(void)
 {
-  pinMode(LEFT_ENCODER_A_PIN, INPUT);
-  pinMode(RIGHT_ENCODER_A_PIN, INPUT);
+  pinMode(LEFT_ENCODER_A_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(LEFT_ENCODER_A_PIN), leftEncoderISR, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RIGHT_ENCODER_A_PIN), rightEncoderISR, CHANGE);
 }
 
 int main(void)
 {
   unsigned long startTime, dTEncoder;
-  unsigned long tempLeftEncoderCount, tempRightEncoderCount;
+  unsigned long tempLeftEncoderCount;
   
   init();
   mysetup(); 
@@ -54,10 +43,17 @@ int main(void)
       ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
         // code with interrupts blocked (consecutive atomic operations will not get interrupted)
         tempLeftEncoderCount = leftEncoderCount;
-        tempRightEncoderCount = rightEncoderCount;
         leftEncoderCount = 0UL;       // 0 is type int, 0UL is type unsigned long
-        rightEncoderCount = 0UL;
       }
+      /* or instead of the ATOMIC_BLOCK, turn off interrupts
+     
+      noInterrupts();               // disable interrupts
+      tempLeftEncoderCount = leftEncoderCount;
+      leftEncoderCount = 0UL;
+      interrupts();                 // re-enable interrupts
+
+      */
+      
     }
   }
 

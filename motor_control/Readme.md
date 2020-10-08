@@ -16,11 +16,6 @@ Lesson 2 introduces Arduino hardware interrupts.
 
 Lesson 3 illustrates how to write an ISR for a port with multiple pin change interrupts.
 
-Lesson D introduces motor encoders.
+Lesson 4 introduces quadrature motor encoders.
 
-Lesson E discusses estimating velocity from encoder data.
-
-Lesson B presents an overview of a PID control system and some examples illustrating the effects of the Kp and Kd parameters.
-
-Lesson C discusses the PID code algorithm and two possible methods of tuning the control system.
 </br></br>
