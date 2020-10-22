@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# Lesson 5: Self-Balancing Control System Using Gyroscope & Accelerometer
+# Lesson 6: Self-Balancing Control System Using Gyroscope & Accelerometer
 
 Control - The Inverted Pendulum Problem
 

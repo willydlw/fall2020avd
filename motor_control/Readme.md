@@ -18,4 +18,8 @@ Lesson 3 illustrates how to write an ISR for a port with multiple pin change int
 
 Lesson 4 introduces quadrature motor encoders.
 
+Lesson 5 introduces PID control
+
+Lesson 6 self-balance control
+
 </br></br>
