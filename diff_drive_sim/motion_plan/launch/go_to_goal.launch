@@ -1,0 +1,8 @@
+<launch>
+  
+  <!-- Launch obstacle avoidance, gap detector with parameters -->
+  <node pkg="motion_plan" name="go_to_goal" type="go_to_goal.py" output="screen">
+   <rosparam command="load" file="$(find motion_plan)/config/goal_params.yaml"/>
+  </node>
+
+</launch>

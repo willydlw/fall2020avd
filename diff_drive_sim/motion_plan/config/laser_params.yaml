@@ -1,0 +1,18 @@
+# go to goal parameters
+
+scan_topic: '/m2wr/laser/scan'
+
+# laser attributes, angle units are radians
+angle_min: -1.570800
+angle_max: 1.570800
+angle_increment: 0.004369
+
+# number of measurements
+num_measurements: 720
+
+# laser range units are meters
+range_min: 0.1
+range_max: 10.0
+
+# obstacle avoidance
+distance_threshold: 5.0

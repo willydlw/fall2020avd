@@ -1,0 +1,6 @@
+# go to goal parameters
+
+yaw_precision: 0.03       # rad, approx 2 degrees
+distance_precision: 0.3   # meters
+
+max_velocity: 1.0         # meters / sec

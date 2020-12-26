@@ -1,0 +1,8 @@
+<launch>
+  
+  <!-- Launch obstacle avoidance, gap detector with parameters -->
+  <node pkg="motion_plan" name="avoid_obstacle" type="avoid_obstacle.py" output="screen">
+   <rosparam command="load" file="$(find motion_plan)/config/laser_params.yaml"/>
+  </node>
+
+</launch>
